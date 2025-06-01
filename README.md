@@ -39,24 +39,22 @@
   <summary>Table of Contents</summary>
   <ol>
     <li>
-      <a href="#about-the-project">About The Project</a>
+      <a href="https://github.com/Sorrypre/CCPROG3_MP_PLANTSVSZOMBIES_ESPADA-DELATORRE?tab=readme-ov-file#about-the-project">About The Project</a>
       <ul>
-        <li><a href="#built-with">Built With</a></li>
+        <li><a href="https://github.com/Sorrypre/CCPROG3_MP_PLANTSVSZOMBIES_ESPADA-DELATORRE?tab=readme-ov-file#built-with">Built With</a></li>
       </ul>
     </li>
     <li>
-      <a href="#getting-started">Getting Started</a>
+      <a href="https://github.com/Sorrypre/CCPROG3_MP_PLANTSVSZOMBIES_ESPADA-DELATORRE?tab=readme-ov-file#getting-started">Getting Started</a>
       <ul>
-        <li><a href="#prerequisites">Prerequisites</a></li>
-        <li><a href="#installation">Installation</a></li>
+        <li><a href="https://github.com/Sorrypre/CCPROG3_MP_PLANTSVSZOMBIES_ESPADA-DELATORRE?tab=readme-ov-file#prerequisites">Prerequisites</a></li>
+        <li><a href="https://github.com/Sorrypre/CCPROG3_MP_PLANTSVSZOMBIES_ESPADA-DELATORRE?tab=readme-ov-file#installation-guide-to-local-repo">Installation Guide</a></li>
+        <li><a href="https://github.com/Sorrypre/CCPROG3_MP_PLANTSVSZOMBIES_ESPADA-DELATORRE?tab=readme-ov-file#commit-and-pull-request-protocols">Commit and Pull Request Protocols</a></li>
       </ul>
     </li>
-    <li><a href="#usage">Usage</a></li>
-    <li><a href="#roadmap">Roadmap</a></li>
-    <li><a href="#contributing">Contributing</a></li>
-    <li><a href="#license">License</a></li>
-    <li><a href="#contact">Contact</a></li>
-    <li><a href="#acknowledgments">Acknowledgments</a></li>
+    <li><a href="https://github.com/Sorrypre/CCPROG3_MP_PLANTSVSZOMBIES_ESPADA-DELATORRE?tab=readme-ov-file#roadmap">Roadmap</a></li>
+    <li><a href="https://github.com/Sorrypre/CCPROG3_MP_PLANTSVSZOMBIES_ESPADA-DELATORRE?tab=readme-ov-file#developer-emails">Developer Emails</a></li>
+    <li><a href="https://github.com/Sorrypre/CCPROG3_MP_PLANTSVSZOMBIES_ESPADA-DELATORRE?tab=readme-ov-file#acknowledgments">Acknowledgments</a></li>
   </ol>
 </details>
 
