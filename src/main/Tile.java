@@ -1,12 +1,18 @@
 package main;
 
 public class Tile {
-    Tile(int x, int y){
+    Tile(int x, int y, int scale){
         xCoordinate = x;
         yCoordinate = y;
+
+        scaledXCoordinate = scale * x;
+        scaledYCoordinate = scale * y;
     }
-    public int getXCoord() {return this.xCoordinate; }
-    public int getYCoord() { return this.yCoordinate; }
+    public int getXCoordinate() {return this.xCoordinate; }
+    public int getYCoordinate() { return this.yCoordinate; }
+    public int getScaledXCoordinate() {return this.scaledXCoordinate;}
+    public int getScaleYCoordinate() { return this.scaledYCoordinate; }
+
     public void addObject() {numOfObjects++;}
     public void removeObject() {
         if (numOfObjects > 0)
@@ -14,7 +20,10 @@ public class Tile {
     }
     public int getNumOfObjects(){ return this.numOfObjects; }
 
-    private int xCoordinate;
-    private int yCoordinate;
+    private final int xCoordinate;
+    private final int yCoordinate;
+
+    private final int scaledXCoordinate;
+    private final int scaledYCoordinate;
     private int numOfObjects;
 }

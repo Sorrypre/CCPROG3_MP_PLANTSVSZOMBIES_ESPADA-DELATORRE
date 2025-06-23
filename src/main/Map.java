@@ -5,8 +5,9 @@ import java.util.TimerTask;
 
 public class Map {
     public Map(int rows, int cols) {
-        x = new int[rows];
-        y = new int[cols];
+        numRows = rows;
+        numColumns = cols;
+        gameTiles = new Tile[rows][cols];
     }
     public void start(){
         gameOver = false;
@@ -52,35 +53,48 @@ public class Map {
         gamePhaseTimer.scheduleAtFixedRate(gamePhaseTimerTask, 1000, 1000);
         sunGenerationTimer.scheduleAtFixedRate(sunGenerationTimerTask, 4000, 4000);
     }
-    public void initializeColumns(int scale) {
-        //scale represents number of actual x values in one column (16)
-        int i;
-        for (i = 0; i <x.length; i++) {
-            x[i] = scale;
-        }
-    }
+//    public void initializeColumns(int scale) {
+//        //scale represents number of actual x values in one column (16)
+//        int i;
+//        for (i = 0; i <x.length; i++) {
+//            x[i] = scale;
+//        }
+//    }
+//
+//    public void initializeRows(int coordinates) {
+//        int i;
+//        for (i = 0; i <x.length; i++) {
+//            x[i] = coordinates;
+//            coordinates += 16;
+//        }
+//    }
+    public void populateGameTiles(int scale) {
+        int i,j;
 
-    public void initializeRows(int coordinates) {
-        int i;
-        for (i = 0; i <x.length; i++) {
-            x[i] = coordinates;
-            coordinates += 16;
-        }
-    }
+        for (i = 0; i < numRows; i++)
+            for(j = 0; j < numColumns; j++)
+                gameTiles[i][j] = new Tile(i,j,scale);
 
+    }
     public int getGameTime() {
         return gamePhaseTime;
     }
+
+    public void addZombie(){
+        //instantiate a normal zombie
+        //set its coordinates in the last 9 value
+        //import random and place it on a random lawn
+    }
+
     private int gamePhaseTime;
+
     private Timer gamePhaseTimer;
-
-
     private Timer sunGenerationTimer;
-
     private Timer zombieGenerationTimer;
 
     private boolean gameOver;
 
-    private int[] x;
-    private int[] y;
+    private int numRows;
+    private int numColumns;
+    private Tile[][] gameTiles;
 }

@@ -7,6 +7,7 @@ public class Level {
         this.totalZombies = totalZombies;
         this.numWaves = numWaves;
         map =  new Map(5,9);
+        map.populateGameTiles(16);
         availablePlants = new ArrayList<String>();
         availableZombies = new ArrayList<String>();
     }
