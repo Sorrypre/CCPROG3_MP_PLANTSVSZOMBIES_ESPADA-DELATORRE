@@ -1,16 +1,12 @@
-package Sprites.Plants;
+package main.Sprites.Plants;
+
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class Sunflower extends Plant {
     public Sunflower (String n, int sc) {
         super(n, sc);
         SUN_RATE = 24000;
-    }
-
-    public void act() {
-        produceSun(SUN_RATE);
-    }
-
-    public void produceSun(int sunRate) {
     }
 
     public int getSunGenerationRate() {
