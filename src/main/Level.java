@@ -1,3 +1,4 @@
+package main;
 import java.util.ArrayList;
 
 public class Level {
@@ -5,7 +6,7 @@ public class Level {
         levelNumber = 1;
         totalZombies = 0;
         numWaves = 4;
-
+        map =  new Map();
     }
     private int levelNumber;
     private int totalZombies;

@@ -1,5 +1,4 @@
-import Plants.Counter;
-import Plants.Sun;
+package main;
 
 import java.util.Timer;
 import java.util.TimerTask;
@@ -9,10 +8,22 @@ public class Map {
         x = new int[9];
         y = new int[5];
         gamePhaseTime = 60;
-        Counter sun_Counter = new Counter();
         gamePhaseTimer = new Timer();
 
-        gamePhaseTimer.scheduleAtFixedRate(countDown, 1000, 1000);
+        gamePhaseTimer.scheduleAtFixedRate(new TimerTask() {
+            @Override
+            public void run() {
+                if (gamePhaseTime > 0) {
+                    System.out.println(gamePhaseTime-- + " seconds");
+                }
+                else {
+                    System.out.println("Level is Over");
+                    gamePhaseTimer.cancel();
+                    gamePhaseTimer.purge();
+                    gamePhaseTimer = null;
+                }
+            }
+        }, 1000, 1000);
     }
 
     public void initializeColumns() {
@@ -33,29 +44,12 @@ public class Map {
         }
     }
 
-    public void dropSun() {
-        Sun sun = new Sun();
-        sun.sunDropped();
-    }
-
-    public Counter getSun_Counter() {
-        return sun_Counter;
-    }
-
     public int getGameTime() {
         return gamePhaseTime;
     }
-
-    TimerTask countDown = new TimerTask() {
-        @Override
-        public void run() {
-            gamePhaseTime--;
-        }
-    };
 
     private  int gamePhaseTime;
     private Timer gamePhaseTimer;
     private int[] x;
     private int[] y;
-    private Counter sun_Counter;
 }

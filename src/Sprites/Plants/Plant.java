@@ -1,4 +1,4 @@
-package Plants;
+package Sprites.Plants;
 
 public class Plant {
     public Plant (String n, int sc) {
