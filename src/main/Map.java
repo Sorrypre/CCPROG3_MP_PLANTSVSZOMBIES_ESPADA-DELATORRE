@@ -11,6 +11,7 @@ public class Map {
     public void start(){
         gameOver = false;
         gamePhaseTime = 30; // test 10 seconds of time
+        sunCounter = new Counter(100);
 
         //each timer object creates a thread that will allow multithreading
         gamePhaseTimer = new Timer();
@@ -38,8 +39,11 @@ public class Map {
 
             @Override
             public void run() {
-                if(!gameOver)
+                if(!gameOver) {
                     System.out.println("Sun generated");
+                    sunCounter.add(25);
+                    System.out.println("Current Sun: " + sunCounter.getValue());
+                }
                 else {
                     System.out.println("end sun timer task");
                     sunGenerationTimer.cancel();
@@ -50,7 +54,7 @@ public class Map {
         };
 
         gamePhaseTimer.scheduleAtFixedRate(gamePhaseTimerTask, 1000, 1000);
-        sunGenerationTimer.scheduleAtFixedRate(sunGenerationTimerTask, 4000, 4000);
+        sunGenerationTimer.scheduleAtFixedRate(sunGenerationTimerTask, 8000, 8000);
     }
     public void initializeColumns(int scale) {
         //scale represents number of actual x values in one column (16)
@@ -80,7 +84,7 @@ public class Map {
     private Timer zombieGenerationTimer;
 
     private boolean gameOver;
-
+    private Counter sunCounter;
     private int[] x;
     private int[] y;
 }

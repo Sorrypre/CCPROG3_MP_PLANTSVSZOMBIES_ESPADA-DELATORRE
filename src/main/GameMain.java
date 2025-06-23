@@ -23,6 +23,5 @@ public class GameMain {
         else {
             System.out.println("Game Terminated.");
         }
-
     }
 }
