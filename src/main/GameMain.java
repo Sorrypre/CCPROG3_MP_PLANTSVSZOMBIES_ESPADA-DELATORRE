@@ -6,7 +6,7 @@ import main.Sprites.Zombie.Zombie;
 public class GameMain {
     public static void main(String[] args) {
         Scanner kb = new Scanner(System.in);
-        Level lvl1 = new Level(1, 0, 4);
+        Level lvl1 = new Level(1, 1, 1);
 
         System.out.println("-- | WELCOME TO LEVEL " + lvl1.getLevelNum() + " OF PVZ | --");
 

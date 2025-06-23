@@ -2,7 +2,7 @@ package main.Sprites.Zombie;
 
 public class Zombie {
     public Zombie(){
-        NAME = "Zombie";
+        NAME = "Normal Zombie";
         speed = 4;
         damage = 10;
         health = 70;
@@ -37,7 +37,12 @@ public class Zombie {
     public void setHealth(int h){
         health = h;
     }
+    public void setXPosition(int x) { xPosition = x; }
+    public void setYPosition(int y) { yPosition = y; }
 
+
+    public int getXPosition() { return xPosition; }
+    public int getYPosition() { return yPosition; }
     public int getSpeed(){
         return speed;
     }
@@ -65,6 +70,9 @@ public class Zombie {
     private int speed;
     private int damage;
     private int health;
+
+    private int xPosition;
+    private int yPosition;
 
     private Armour zombieArmour;
 
