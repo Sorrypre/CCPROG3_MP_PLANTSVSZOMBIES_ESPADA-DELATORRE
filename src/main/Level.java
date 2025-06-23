@@ -7,6 +7,9 @@ public class Level {
         totalZombies = 0;
         numWaves = 4;
         map =  new Map();
+        availableZombies.add("Normal Zombie");
+        availablePlants.add("Sunflower");
+        availablePlants.add("Peashooter");
     }
     private int levelNumber;
     private int totalZombies;
