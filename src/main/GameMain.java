@@ -1,7 +1,7 @@
 package main;
 import java.util.Scanner;
 
-import Sprites.Zombie.Zombie;
+import main.Sprites.Zombie.Zombie;
 
 public class GameMain {
     public static void main(String[] args) {

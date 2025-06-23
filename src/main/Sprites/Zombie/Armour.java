@@ -1,4 +1,4 @@
-package Sprites.Zombie;
+package main.Sprites.Zombie;
 
 public class Armour {
     public Armour(){

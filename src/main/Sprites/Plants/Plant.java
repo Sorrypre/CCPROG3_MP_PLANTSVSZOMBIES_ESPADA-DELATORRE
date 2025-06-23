@@ -1,4 +1,7 @@
-package Sprites.Plants;
+package main.Sprites.Plants;
+
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class Plant {
     public Plant (String n, int sc) {
@@ -10,7 +13,27 @@ public class Plant {
         range = 0;
         directDamage = 0;
         speed = 0;
-        lastAdded = System.currentTimeMillis(); //current time in milliseconds
+        Timer regenTImer = new Timer();
+        Timer actionTimer = new Timer();
+
+        TimerTask regenPlant = new TimerTask() {
+            @Override
+            public void run() {
+                health += 1;
+            }
+        };
+    }
+
+
+    public Plant (String n, int sc, int regen, int dmg, int hp, int range, float dd, int spd) {
+        name = n;
+        sunCost = sc;
+        regenerationRate = regen;
+        damage = dmg;
+        health = hp;
+        this.range = range;
+        directDamage = dd;
+        speed = spd;
     }
 
     public void setName (String name) {
@@ -85,6 +108,8 @@ public class Plant {
         return sunCost > 0;
     }
     //public access modifier reason is that there are inheritor classes
+    protected Timer regenTimer;
+    protected Timer actionTimer;
     protected String name;
     protected int sunCost;
     protected float regenerationRate;

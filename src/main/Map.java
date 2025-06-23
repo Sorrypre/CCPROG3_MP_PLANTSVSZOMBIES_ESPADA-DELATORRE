@@ -35,7 +35,7 @@ public class Map {
                 }
             }
         };
-        TimerTask sunGenerationTimerTask = new TimerTask(){
+        TimerTask sunGenerationTimerTask = new TimerTask() {
 
             @Override
             public void run() {
