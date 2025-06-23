@@ -1,4 +1,4 @@
-package Plants;
+package main;
 
 public class Sun {
     public Sun() {
