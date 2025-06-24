@@ -1,9 +1,7 @@
 package main;
 
-import java.util.Timer;
-import java.util.ArrayList;
-import java.util.TimerTask;
-import java.util.Random;
+import java.util.*;
+
 import main.Sprites.Zombie.*;
 
 
@@ -13,6 +11,7 @@ public class Map {
         numColumns = cols;
         gameTiles = new Tile[rows][cols];
         zombiesOnLawn = new ArrayList<Zombie>();
+        kb = new Scanner(System.in);
     }
     public void start(){
         Map m = this;
@@ -54,7 +53,10 @@ public class Map {
             public void run() {
                 if(!gameOver) {
                     System.out.println("Sun generated");
-                    sunCounter.add(25);
+                    System.out.println("Would you like to collect the sun? (yes/no)");
+                    choice = kb.nextLine();
+                        if (choice.equalsIgnoreCase("yes"))
+                            sunCounter.add(25);
                     System.out.println("Current Sun: " + sunCounter.getValue());
                 }
                 else {
@@ -118,6 +120,10 @@ public class Map {
 
     }
 
+    public Counter getSunCounter() {
+        return sunCounter;
+    }
+
     private int gamePhaseTime;
 
     private Timer gamePhaseTimer;
@@ -134,4 +140,7 @@ public class Map {
     private Tile[][] gameTiles;
 
     private ArrayList<Zombie> zombiesOnLawn;
+
+    private Scanner kb;
+    private String choice;
 }

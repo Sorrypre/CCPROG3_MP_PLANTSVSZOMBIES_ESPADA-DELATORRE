@@ -1,8 +1,6 @@
 package main;
 import java.util.Scanner;
 
-import main.Sprites.Zombie.Zombie;
-
 public class GameMain {
     public static void main(String[] args) {
         Scanner kb = new Scanner(System.in);

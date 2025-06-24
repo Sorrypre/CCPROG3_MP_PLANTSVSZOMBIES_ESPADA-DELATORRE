@@ -7,14 +7,14 @@ public class Plant {
     public Plant (String n, int sc) {
         name = n;
         sunCost = sc;
-        regenerationRate = 1;
+        regenerationRate = 1500;
         damage = 0;
-        health = 100;
+        health = 20;
         range = 0;
         directDamage = 0;
         speed = 0;
-        Timer regenTImer = new Timer();
-        Timer actionTimer = new Timer();
+        regenTimer = new Timer();
+        actionTimer = new Timer();
 
         TimerTask regenPlant = new TimerTask() {
             @Override
@@ -22,12 +22,13 @@ public class Plant {
                 health += 1;
             }
         };
+
+        regenTimer.scheduleAtFixedRate(regenPlant, regenerationRate, regenerationRate);
     }
 
 
     public Plant (String n, int sc, int regen, int dmg, int hp, int range, float dd, int spd) {
-        name = n;
-        sunCost = sc;
+        this(n, sc);
         regenerationRate = regen;
         damage = dmg;
         health = hp;
@@ -44,7 +45,7 @@ public class Plant {
         this.sunCost = sunCost;
     }
 
-    public void setRegenerationRate(float regenerationRate) {
+    public void setRegenerationRate(int regenerationRate) {
         this.regenerationRate = regenerationRate;
     }
 
@@ -100,10 +101,6 @@ public class Plant {
         return speed;
     }
 
-    public long getLastAdded() {
-        return lastAdded;
-    }
-
     public boolean isValidSunCost() {
         return sunCost > 0;
     }
@@ -112,11 +109,10 @@ public class Plant {
     protected Timer actionTimer;
     protected String name;
     protected int sunCost;
-    protected float regenerationRate;
+    protected int regenerationRate;
     protected int damage;
     protected int health;
     protected int range;
     protected float directDamage;
     protected int speed;
-    protected long lastAdded;
 }
