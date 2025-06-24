@@ -58,7 +58,7 @@ public class Map {
                     //System.out.println("Current Sun: " + sunCounter.getValue());
                 }
                 else {
-                    System.out.println("end sun timer task");
+                    System.out.println("End sun timer task");
                     sunGenerationTimer.cancel();
                     sunGenerationTimer.purge();
                     sunGenerationTimer = null;
