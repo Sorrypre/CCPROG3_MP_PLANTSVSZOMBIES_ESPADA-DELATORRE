@@ -69,6 +69,10 @@ public class Plant {
         this.speed = speed;
     }
 
+    public void setXPosition(int x) { xPosition = x; }
+
+    public void setYPosition(int y) { yPosition = y; }
+
     public String getName() {
         return name;
     }
@@ -101,6 +105,10 @@ public class Plant {
         return speed;
     }
 
+    public int getXPosition() { return xPosition; }
+
+    public int getYPosition() { return yPosition; }
+
     public boolean isValidSunCost() {
         return sunCost > 0;
     }
@@ -115,4 +123,6 @@ public class Plant {
     protected int range;
     protected float directDamage;
     protected int speed;
+    protected int xPosition;
+    protected int yPosition;
 }

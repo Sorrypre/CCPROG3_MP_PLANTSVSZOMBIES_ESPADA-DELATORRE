@@ -1,5 +1,7 @@
 package main;
 
+import main.Sprites.Plants.*;
+
 public class Tile {
     Tile(int x, int y, int scale){
         xCoordinate = x;
@@ -7,7 +9,10 @@ public class Tile {
 
         scaledXCoordinate = scale * x;
         scaledYCoordinate = scale * y;
+        plantInTile = null;
     }
+    public void setPlant(Plant plant) { plantInTile = plant; }
+    public Plant getPlant() {return plantInTile; }
     public int getXCoordinate() {return this.xCoordinate; }
     public int getYCoordinate() { return this.yCoordinate; }
     public int getScaledXCoordinate() {return this.scaledXCoordinate;}
@@ -26,4 +31,6 @@ public class Tile {
     private final int scaledXCoordinate;
     private final int scaledYCoordinate;
     private int numOfObjects;
+
+    private Plant plantInTile;
 }

@@ -3,6 +3,7 @@ package main;
 import java.util.*;
 
 import main.Sprites.Zombie.*;
+import main.Sprites.Plants.*;
 
 
 public class Map {
@@ -11,6 +12,7 @@ public class Map {
         numColumns = cols;
         gameTiles = new Tile[rows][cols];
         zombiesOnLawn = new ArrayList<Zombie>();
+        plantsOnLawn = new ArrayList<Plant>();
         kb = new Scanner(System.in);
     }
     public void start(){
@@ -22,7 +24,7 @@ public class Map {
         m.addZombie(randomYCoordinate.nextInt(6), 16);
         System.out.println("Current Position of Zombie: (" + zombiesOnLawn.get(0).getXPosition() + ", " + zombiesOnLawn.get(0).getYPosition() + ") ");
         //refactor to make things a lot shorter like the scales and the coordinates just make it set getXPosition(int scale) so that it will be less cluttered
-        Tile tileOccupied = gameTiles[zombiesOnLawn.get(0).getYPosition() / 16][zombiesOnLawn.get(0).getXPosition() / 16];
+        tileOccupied = gameTiles[zombiesOnLawn.get(0).getYPosition() / 16][zombiesOnLawn.get(0).getXPosition() / 16];
         System.out.println("Number of objects in tile (" + tileOccupied.getXCoordinate() + "," + tileOccupied.getYCoordinate() + ") where zombie is " + tileOccupied.getNumOfObjects());
 
         //each timer object creates a thread that will allow multithreading
@@ -51,6 +53,7 @@ public class Map {
 
             @Override
             public void run() {
+                int x,y;
                 if(!gameOver) {
                     System.out.println("Sun generated");
                     System.out.println("Would you like to collect the sun? (yes/no)");
@@ -58,6 +61,25 @@ public class Map {
                         if (choice.equalsIgnoreCase("yes"))
                             sunCounter.add(25);
                     System.out.println("Current Sun: " + sunCounter.getValue());
+                    if(sunCounter.getValue() >= 50){
+                        System.out.println("You have enough sun to place a sunflower");
+                        System.out.println("Would you like to place? (yes/no)");
+                        choice = kb.nextLine();
+                        if (choice.equalsIgnoreCase("yes"))
+                        {
+                            System.out.print("Enter x: ");
+                            xInput = kb.nextInt();
+                            System.out.print("Enter y: ");
+                            yInput = kb.nextInt();
+                            m.placeSunFlower(xInput, yInput, 16, sunCounter);
+                            //first plant placed
+                            System.out.println("Current position of Plant: (" + plantsOnLawn.get(0).getXPosition() + ", " + plantsOnLawn.get(0).getYPosition() + ") ");
+                            tileOccupied = gameTiles[plantsOnLawn.get(0).getYPosition() / 16][plantsOnLawn.get(0).getXPosition() / 16];
+                            System.out.println("Number of objects in tile (" + tileOccupied.getXCoordinate() + "," + tileOccupied.getYCoordinate() + ") where zombie is " + tileOccupied.getNumOfObjects());
+                            System.out.println("What plant is current on the tile: " + tileOccupied.getPlant().getName());
+
+                        }
+                    }
                 }
                 else {
                     System.out.println("End sun timer task");
@@ -105,7 +127,6 @@ public class Map {
         System.out.println("Created a zombie");
 
         scaledXCoordinate = 8 * scale;
-
         scaledYCoordinate = x * scale;
 
         zombie.setXPosition(scaledXCoordinate);
@@ -118,6 +139,22 @@ public class Map {
         //import random and place it on a random lawn
         //add number of
 
+    }
+    public void placeSunFlower(int x, int y, int scale, Counter sunCounter){
+        int scaledXCoordinate, scaledYCoordinate;
+        Sunflower sunflower = new Sunflower("Sunflower", 50, sunCounter);
+        System.out.println("Created a sunflower");
+
+        //fix coordinate system labelling
+        scaledXCoordinate = y * scale;
+        scaledYCoordinate = x * scale;
+
+        sunflower.setXPosition(scaledXCoordinate);
+        sunflower.setYPosition(scaledYCoordinate);
+
+        plantsOnLawn.add(sunflower); //adds to the arrayList
+        gameTiles[x][y].addObject();
+        gameTiles[x][y].setPlant(sunflower);
     }
 
     public Counter getSunCounter() {
@@ -140,7 +177,11 @@ public class Map {
     private Tile[][] gameTiles;
 
     private ArrayList<Zombie> zombiesOnLawn;
+    private ArrayList<Plant>  plantsOnLawn;
 
     private Scanner kb;
     private String choice;
+    private int xInput;
+    private int yInput;
+    private Tile tileOccupied;
 }
