@@ -19,7 +19,7 @@ public class Map {
         Random randomYCoordinate = new Random();
         gameOver = false;
         gamePhaseTime = 30; // test 10 seconds of time
-        //sunCounter = new Counter(100);
+        sunCounter = new Counter(100);
         m.addZombie(randomYCoordinate.nextInt(6), 16);
         System.out.println("Current Position of Zombie: (" + zombiesOnLawn.get(0).getXPosition() + ", " + zombiesOnLawn.get(0).getYPosition() + ") ");
         //refactor to make things a lot shorter like the scales and the coordinates just make it set getXPosition(int scale) so that it will be less cluttered
@@ -54,8 +54,8 @@ public class Map {
             public void run() {
                 if(!gameOver) {
                     System.out.println("Sun generated");
-                    //sunCounter.add(25);
-                    //System.out.println("Current Sun: " + sunCounter.getValue());
+                    sunCounter.add(25);
+                    System.out.println("Current Sun: " + sunCounter.getValue());
                 }
                 else {
                     System.out.println("End sun timer task");
@@ -125,7 +125,7 @@ public class Map {
     private Timer zombieGenerationTimer;
 
     private boolean gameOver;
-    //private Counter sunCounter;
+    private Counter sunCounter;
     private int[] x;
     private int[] y;
 

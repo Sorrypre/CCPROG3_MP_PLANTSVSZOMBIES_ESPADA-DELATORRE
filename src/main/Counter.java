@@ -17,5 +17,9 @@ public class Counter {
         this.value += value;
     }
 
+    public void subtract(int value) {
+        this.value -= value;
+    }
+
     private int value;
 }
