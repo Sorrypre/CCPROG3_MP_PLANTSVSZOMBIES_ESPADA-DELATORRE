@@ -12,21 +12,33 @@ public class Sunflower extends Plant {
     public Sunflower(String n, int sc, Counter sunCounter) {
         super(n, sc);
         SUN_RATE = 24000;
-        actionTimer = new Timer();
         kb = new Scanner(System.in);
         this.sunCounter = sunCounter;
 
         TimerTask produceSunTimer = new TimerTask() {
+            long curTime;
             @Override
             public void run() {
-                produceSun();
+                if (!isDead()) {
+                    curTime = System.currentTimeMillis();
+                    if (curTime >= lastAdded + SUN_RATE) {
+                        produceSun();
+                        lastAdded = curTime;
+                    }
+                }
+                else {
+                    System.out.println("Sunflower Action Timer is Over");
+                    actionTimer.cancel();
+                    actionTimer.purge();
+                    actionTimer = null;
+                }
             }
         };
-        actionTimer.scheduleAtFixedRate(produceSunTimer, SUN_RATE, SUN_RATE);
+        actionTimer.scheduleAtFixedRate(produceSunTimer, 300, 300);
     }
 
     public void produceSun() {
-        System.out.println("Sun generated");
+        System.out.println("Sunflower generated a Sun");
         System.out.println("Would you like to collect the sun? (yes/no)");
         choice = kb.nextLine();
             if (choice.equalsIgnoreCase("yes"))

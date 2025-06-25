@@ -13,23 +13,31 @@ public class Map {
         gameTiles = new Tile[rows][cols];
         zombiesOnLawn = new ArrayList<Zombie>();
         plantsOnLawn = new ArrayList<Plant>();
+        sunCounter = new Counter(100);
+
+        //input
         kb = new Scanner(System.in);
+
+        //timer task variables
+        gameOver = false;
+        gamePhaseTime = 60; // test 10 seconds of time
+
+
     }
     public void start(){
         Map m = this;
         Random randomYCoordinate = new Random();
-        gameOver = false;
-        gamePhaseTime = 30; // test 10 seconds of time
-        sunCounter = new Counter(100);
-        m.addZombie(randomYCoordinate.nextInt(6), 16);
+        //each timer object creates a thread that will allow multithreading
+        gamePhaseTimer = new Timer();
+        sunGenerationTimer = new Timer();
+        m.addZombie(randomYCoordinate.nextInt(4), 16);
         System.out.println("Current Position of Zombie: (" + zombiesOnLawn.get(0).getXPosition() + ", " + zombiesOnLawn.get(0).getYPosition() + ") ");
         //refactor to make things a lot shorter like the scales and the coordinates just make it set getXPosition(int scale) so that it will be less cluttered
         tileOccupied = gameTiles[zombiesOnLawn.get(0).getYPosition() / 16][zombiesOnLawn.get(0).getXPosition() / 16];
         System.out.println("Number of objects in tile (" + tileOccupied.getXCoordinate() + "," + tileOccupied.getYCoordinate() + ") where zombie is " + tileOccupied.getNumOfObjects());
+        //test place plant
+        m.placeSunFlower(0,0,16,sunCounter);
 
-        //each timer object creates a thread that will allow multithreading
-        gamePhaseTimer = new Timer();
-        sunGenerationTimer = new Timer();
 
         //execute until time is not a negative integer
          TimerTask gamePhaseTimerTask = new TimerTask() {
@@ -37,15 +45,19 @@ public class Map {
             public void run() {
                 //execute until time is not a negative integer
                 if (gamePhaseTime > 0) {
-                    System.out.println(gamePhaseTime-- + " seconds");
-                } else {
+                    gamePhaseTime--;
+                }
+                else {
                     System.out.println("Level is Over");
                     gameOver = true;
+                    kb.close();
                     //terminate this timer and remove any currently scheduled tasks
                     gamePhaseTimer.cancel();
                     //mark the timer reference for garbage collection
                     gamePhaseTimer.purge();
                     gamePhaseTimer = null;
+                    for (Plant i: plantsOnLawn)
+                        i.setHealth(0);
                 }
             }
         };
@@ -55,34 +67,34 @@ public class Map {
             public void run() {
                 int x,y;
                 if(!gameOver) {
-                    System.out.println("Sun generated");
+                    System.out.println("Sky Generated a Sun at Time: " + (gamePhaseTime/60) + ":" + (60-(gamePhaseTime%60)));
                     System.out.println("Would you like to collect the sun? (yes/no)");
                     choice = kb.nextLine();
                         if (choice.equalsIgnoreCase("yes"))
                             sunCounter.add(25);
                     System.out.println("Current Sun: " + sunCounter.getValue());
-                    if(sunCounter.getValue() >= 50){
-                        System.out.println("You have enough sun to place a sunflower");
-                        System.out.println("Would you like to place? (yes/no)");
-                        choice = kb.nextLine();
-                        if (choice.equalsIgnoreCase("yes"))
-                        {
-                            System.out.print("Enter x: ");
-                            xInput = kb.nextInt();
-                            System.out.print("Enter y: ");
-                            yInput = kb.nextInt();
-                            m.placeSunFlower(xInput, yInput, 16, sunCounter);
-                            //first plant placed
-                            System.out.println("Current position of Plant: (" + plantsOnLawn.get(0).getXPosition() + ", " + plantsOnLawn.get(0).getYPosition() + ") ");
-                            tileOccupied = gameTiles[plantsOnLawn.get(0).getYPosition() / 16][plantsOnLawn.get(0).getXPosition() / 16];
-                            System.out.println("Number of objects in tile (" + tileOccupied.getXCoordinate() + "," + tileOccupied.getYCoordinate() + ") where zombie is " + tileOccupied.getNumOfObjects());
-                            System.out.println("What plant is current on the tile: " + tileOccupied.getPlant().getName());
-
-                        }
-                    }
+//                    if(sunCounter.getValue() >= 50){
+//                        System.out.println("You have enough sun to place a sunflower");
+//                        System.out.println("Would you like to place? (yes/no)");
+//                        choice = kb.nextLine();
+//                        if (choice.equalsIgnoreCase("yes"))
+//                        {
+//                            System.out.print("Enter x: ");
+//                            xInput = kb.nextInt();
+//                            System.out.print("Enter y: ");
+//                            yInput = kb.nextInt();
+//                            m.placeSunFlower(xInput, yInput, 16, sunCounter);
+//                            //first plant placed
+//                            System.out.println("Current position of Plant: (" + plantsOnLawn.get(0).getXPosition() + ", " + plantsOnLawn.get(0).getYPosition() + ") ");
+//                            tileOccupied = gameTiles[plantsOnLawn.get(0).getYPosition() / 16][plantsOnLawn.get(0).getXPosition() / 16];
+//                            System.out.println("Number of objects in tile (" + tileOccupied.getXCoordinate() + "," + tileOccupied.getYCoordinate() + ") where zombie is " + tileOccupied.getNumOfObjects());
+//                            System.out.println("What plant is current on the tile: " + tileOccupied.getPlant().getName());
+//
+//                       }
+//                    }
                 }
                 else {
-                    System.out.println("End sun timer task");
+                    System.out.println("End Sun Timer Task");
                     sunGenerationTimer.cancel();
                     sunGenerationTimer.purge();
                     sunGenerationTimer = null;
@@ -117,9 +129,7 @@ public class Map {
 
     }
 
-    public int getGameTime() {
-        return gamePhaseTime;
-    }
+
 
     public void addZombie(int x, int scale){
         int scaledXCoordinate, scaledYCoordinate;
@@ -143,8 +153,8 @@ public class Map {
     public void placeSunFlower(int x, int y, int scale, Counter sunCounter){
         int scaledXCoordinate, scaledYCoordinate;
         Sunflower sunflower = new Sunflower("Sunflower", 50, sunCounter);
-        System.out.println("Created a sunflower");
-
+        System.out.println("Created a Sunflower at Time: " + (gamePhaseTime/60) + ":" + (60-(gamePhaseTime%60)));
+        sunCounter.subtract(sunflower.getSunCost());
         //fix coordinate system labelling
         scaledXCoordinate = y * scale;
         scaledYCoordinate = x * scale;
@@ -155,6 +165,10 @@ public class Map {
         plantsOnLawn.add(sunflower); //adds to the arrayList
         gameTiles[x][y].addObject();
         gameTiles[x][y].setPlant(sunflower);
+    }
+
+    public int getGameTime() {
+        return gamePhaseTime;
     }
 
     public Counter getSunCounter() {

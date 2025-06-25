@@ -9,7 +9,8 @@ public class GameMain {
         System.out.println("-- | WELCOME TO LEVEL " + lvl1.getLevelNum() + " OF PVZ | --");
 
         System.out.print("Do you want to start the game (yes/no) ? ");
-        if (kb.nextLine().equals("yes")){
+        if (kb.nextLine().equals("yes")) {
+            System.out.println("Game Start.");
             //test sunflower, peashooter
             lvl1.getAvailablePlants().add("sunflower");
             lvl1.getAvailablePlants().add("peashooter");

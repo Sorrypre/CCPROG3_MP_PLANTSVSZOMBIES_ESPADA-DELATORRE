@@ -6,7 +6,10 @@ import java.util.TimerTask;
 public class Plant {
     public Plant (String n, int sc) {
         name = n;
-        sunCost = sc;
+        if (isValidSunCost(sc))
+            sunCost = sc;
+        else
+            sunCost = 100;
         regenerationRate = 1500;
         damage = 0;
         health = 20;
@@ -15,15 +18,32 @@ public class Plant {
         speed = 0;
         regenTimer = new Timer();
         actionTimer = new Timer();
+        lastAdded = System.currentTimeMillis();
 
         TimerTask regenPlant = new TimerTask() {
+            final int MAX_HP = health;
+            long curTime;
             @Override
             public void run() {
-                health += 1;
+                if (!isDead()) {
+                    curTime = System.currentTimeMillis();
+                    if (curTime >= lastAdded + regenerationRate) {
+                        if (health < MAX_HP) {
+                            health += 1;
+                            lastAdded = curTime;
+                        }
+                    }
+                }
+                else {
+                    System.out.println("Regen Timer is Over");
+                    regenTimer.cancel();
+                    regenTimer.purge();
+                    regenTimer = null;
+                }
             }
         };
 
-        regenTimer.scheduleAtFixedRate(regenPlant, regenerationRate, regenerationRate);
+        regenTimer.scheduleAtFixedRate(regenPlant, 300, 300);
     }
 
 
@@ -73,44 +93,35 @@ public class Plant {
 
     public void setYPosition(int y) { yPosition = y; }
 
-    public String getName() {
-        return name;
-    }
+    public String getName() { return name; }
 
-    public int getSunCost() {
-        return sunCost;
-    }
+    public int getSunCost() { return sunCost; }
 
-    public float getRegenerationRate() {
-        return regenerationRate;
-    }
+    public float getRegenerationRate() { return regenerationRate; }
 
-    public int getDamage() {
-        return damage;
-    }
+    public int getDamage() {return damage; }
 
-    public int getHealth() {
-        return health;
-    }
+    public int getHealth() { return health; }
 
-    public int getRange() {
-        return range;
-    }
+    public int getRange() { return range; }
 
-    public float getDirectDamage() {
-        return directDamage;
-    }
+    public float getDirectDamage() { return directDamage; }
 
-    public int getSpeed() {
-        return speed;
-    }
+    public int getSpeed() { return speed; }
+
+    public Timer getActionTimer() { return actionTimer; }
 
     public int getXPosition() { return xPosition; }
 
     public int getYPosition() { return yPosition; }
 
-    public boolean isValidSunCost() {
-        return sunCost > 0;
+    protected boolean isDead() {
+        return health == 0;
+    }
+    protected boolean isValidSunCost(int sc) {
+        if (sc > 0)
+            return true;
+        return false;
     }
     //public access modifier reason is that there are inheritor classes
     protected Timer regenTimer;
@@ -125,4 +136,5 @@ public class Plant {
     protected int speed;
     protected int xPosition;
     protected int yPosition;
+    protected long lastAdded; //used for action timer interval
 }
