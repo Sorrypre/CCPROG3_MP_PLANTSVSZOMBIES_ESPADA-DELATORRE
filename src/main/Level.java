@@ -3,6 +3,7 @@ import java.util.ArrayList;
 import java.util.*;
 
 import main.Sprites.Plants.*; //for each
+import main.Sprites.Zombie.Zombie;
 
 public class Level {
     Level(int levelNumber, int totalZombies, int numWaves) {
@@ -50,6 +51,8 @@ public class Level {
                     gamePhaseTimer = null;
                     for (Plant i: map.getPlantsOnLawn())
                         i.setHealth(0);
+                    for (Zombie i: map.getZombiesOnLawn())
+                        i.setHealth(0);
                 }
             }
         };
@@ -59,9 +62,8 @@ public class Level {
             public void run() {
                 if(!map.getGameStatus()) {
                     System.out.println("Sky Generated a Sun at Time: " + (gamePhaseTime/60) + ":" + gamePhaseTime%60);
-                    System.out.println("Would you like to collect the sun? (yes/no)");
-                    choice = kb.nextLine();
-                    if (choice.equalsIgnoreCase("yes"))
+                    System.out.println("Would you like to collect the sun? (y/n)");
+                    if (kb.next().equalsIgnoreCase("y"))
                         sunCounter.add(25);
                     System.out.println("Current Sun: " + sunCounter.getValue());
 //                    if(sunCounter.getValue() >= 50){
@@ -86,6 +88,7 @@ public class Level {
                 }
                 else {
                     System.out.println("End Sun Timer Task");
+                    kb.close();
                     sunGenerationTimer.cancel();
                     sunGenerationTimer.purge();
                     sunGenerationTimer = null;
@@ -110,7 +113,6 @@ public class Level {
     private Timer zombieGenerationTimer;
     //start fucntion variables
     private Scanner kb;
-    private String choice;
     private int xInput;
     private int yInput;
 

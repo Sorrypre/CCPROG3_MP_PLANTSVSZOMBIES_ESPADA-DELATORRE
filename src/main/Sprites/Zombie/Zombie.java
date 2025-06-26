@@ -24,7 +24,7 @@ public class Zombie {
 
             @Override
             public void run() {
-                if (tileOccupied.getYCoordinate() == 0){
+                if (tileOccupied.getYCoordinate() == 0 && !isDead()){
                     System.out.println("Zombies Win, game over");
                     map.setGameStatus(true);
                     System.out.println("Zombie reached House at gameTile ("+  tileOccupied.getXCoordinate() + ", "+ tileOccupied.getYCoordinate() + ")");
@@ -34,13 +34,20 @@ public class Zombie {
 
                 }
                     //code a function
-                else if (tileOccupied.getPlant() != null)
+                else if (isDead()) { //if zombies ran out of time
+                    if (map.getGameStatus()) {
+                        moveTimer.cancel();
+                        moveTimer.purge();
+                        moveTimer = null;
+                    }
+                }
+                else if (tileOccupied.getPlant() != null && !isDead())
                     System.out.println("Eat Plant"); //code a function
-                else if(!map.getGameStatus())
+                else if(!map.getGameStatus() && !isDead())
                     move();
             }
         };
-        moveTimer.scheduleAtFixedRate(moveEverySecond, 0, 1000);
+        moveTimer.scheduleAtFixedRate(moveEverySecond, 1500, 1500);
     }
 
     public Zombie(String zombieName, Armour zombieArmour){
@@ -82,6 +89,10 @@ public class Zombie {
 
     public void equip(Armour zombieArmour){
         this.zombieArmour = zombieArmour;
+    }
+
+    public boolean isDead() {
+        return health == 0;
     }
     public static void die(Zombie zombie){
         zombieCounter--;

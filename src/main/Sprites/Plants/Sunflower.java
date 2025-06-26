@@ -28,6 +28,7 @@ public class Sunflower extends Plant {
                 }
                 else {
                     System.out.println("Sunflower Action Timer is Over");
+                    kb.close();
                     actionTimer.cancel();
                     actionTimer.purge();
                     actionTimer = null;
@@ -39,9 +40,8 @@ public class Sunflower extends Plant {
 
     public void produceSun() {
         System.out.println("Sunflower generated a Sun");
-        System.out.println("Would you like to collect the sun? (yes/no)");
-        choice = kb.nextLine();
-            if (choice.equalsIgnoreCase("yes"))
+        System.out.println("Would you like to collect the sun? (y/n)");
+            if (kb.next().equalsIgnoreCase("y"))
                 sunCounter.add(25);
         System.out.println("Current Sun: " + sunCounter.getValue());
     }
@@ -52,6 +52,5 @@ public class Sunflower extends Plant {
 
     private Counter sunCounter;
     private Scanner kb;
-    private String choice;
     private final int SUN_RATE;
 }
