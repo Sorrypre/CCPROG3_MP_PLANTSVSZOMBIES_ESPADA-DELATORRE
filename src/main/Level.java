@@ -147,7 +147,7 @@ public class Level {
                     for (i = 1; i <= 5 + ((levelNumber - 1) * 2); i++)
                         map.addZombie(randomRow.nextInt(5), map);
                 }
-                else if (gamePhaseTime >= 180) {
+                else if (map.getGameStatus()) {
                     zombieGenerationTimer.cancel();
                     zombieGenerationTimer.purge();
                     zombieGenerationTimer = null;
