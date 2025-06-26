@@ -115,8 +115,8 @@ public class Plant {
 
     public int getYPosition() { return yPosition; }
 
-    protected boolean isDead() {
-        return health == 0;
+    public boolean isDead() {
+        return health <= 0;
     }
     protected boolean isValidSunCost(int sc) {
         if (sc > 0)

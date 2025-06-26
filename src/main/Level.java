@@ -29,7 +29,7 @@ public class Level {
         Tile tileOccupied = map.getGameTiles()[map.getZombiesOnLawn().get(0).getRowPosition() / 16][map.getZombiesOnLawn().get(0).getColPosition() / 16];
         System.out.println("Number of objects in tile (" + tileOccupied.getXCoordinate() + "," + tileOccupied.getYCoordinate() + ") where zombie is " + tileOccupied.getNumOfObjects());
         //test place plant
-        map.placeSunFlower(0,0, gamePhaseTime, sunCounter);
+        map.placeSunFlower(3,7, gamePhaseTime, sunCounter);
 
 
         //execute until time is not a negative integer
@@ -63,8 +63,9 @@ public class Level {
                 if(!map.getGameStatus()) {
                     System.out.println("Sky Generated a Sun at Time: " + (gamePhaseTime/60) + ":" + gamePhaseTime%60);
                     System.out.println("Would you like to collect the sun? (y/n)");
-                    if (kb.next().equalsIgnoreCase("y"))
-                        sunCounter.add(25);
+                    if(kb.hasNext())
+                        if (kb.next().equalsIgnoreCase("y"))
+                            sunCounter.add(25);
                     System.out.println("Current Sun: " + sunCounter.getValue());
 //                    if(sunCounter.getValue() >= 50){
 //                        System.out.println("You have enough sun to place a sunflower");

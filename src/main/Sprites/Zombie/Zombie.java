@@ -31,18 +31,20 @@ public class Zombie {
                     moveTimer.cancel();
                     moveTimer.purge();
                     moveTimer = null;
-
                 }
                     //code a function
-                else if (isDead()) { //if zombies ran out of time
+                else if (isDead()) { //if zombies ran out of time or killed by plant
                     if (map.getGameStatus()) {
                         moveTimer.cancel();
                         moveTimer.purge();
                         moveTimer = null;
                     }
                 }
-                else if (tileOccupied.getPlant() != null && !isDead())
-                    System.out.println("Eat Plant"); //code a function
+                //not finished the plant, idk how to remove plant object from tile pls fix help
+                else if (tileOccupied.getPlant() != null && !isDead() && !tileOccupied.getPlant().isDead()) {
+                    System.out.println("Eat Plant");
+                    eatPlant(); //code a function
+                }
                 else if(!map.getGameStatus() && !isDead())
                     move();
             }
@@ -50,6 +52,7 @@ public class Zombie {
         moveTimer.scheduleAtFixedRate(moveEverySecond, 1500, 1500);
     }
 
+    //update zombie class to latest
     public Zombie(String zombieName, Armour zombieArmour){
         //you can use getName from the armor class and the base the zombie name from there
         NAME = zombieName;
@@ -62,27 +65,38 @@ public class Zombie {
 
     }
 
+    //Setters
+
     public void setSpeed(int s){
         speed = s;
     }
+
     public void setDamage(int d){
         damage = d;
     }
+
     public void setHealth(int h){
         health = h;
     }
+
     public void setRowPosition(int x) { rowPosition = x; }
+
     public void setColPosition(int y) { colPosition = y; }
 
+    //Getters
 
     public int getRowPosition() { return rowPosition; }
+
     public int getColPosition() { return colPosition; }
+
     public int getSpeed(){
         return speed;
     }
+
     public int getDamage(){
         return damage;
     }
+
     public int getHealth(){
         return health;
     }
@@ -91,9 +105,8 @@ public class Zombie {
         this.zombieArmour = zombieArmour;
     }
 
-    public boolean isDead() {
-        return health == 0;
-    }
+    public boolean isDead() { return health <= 0; }
+
     public static void die(Zombie zombie){
         zombieCounter--;
         zombie = null;
@@ -109,6 +122,10 @@ public class Zombie {
         }
     }
     public void eatPlant(){
+        int plant_hp;
+        plant_hp = tileOccupied.getPlant().getHealth();
+        if (plant_hp > 0)
+            plant_hp -= damage;
 
     }
 
