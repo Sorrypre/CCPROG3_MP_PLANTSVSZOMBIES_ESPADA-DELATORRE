@@ -66,9 +66,11 @@ public class Map {
 
     }
 
-    /** This method adds a Zombie object to the ArrayList indicating that a zombie exists on the lawn
-     @param row the row which the zombie will spawn
-     @param map the map object which the zombie will be spawned
+    /** This method adds a Sunflower object to the ArrayList indicating that a Sunflower Plant exists on the lawn
+     @param row the row which the plant will be planted
+     @param col the column which the plant will be planted
+     @param gamePhaseTime the current time indicating how long the game has been running
+     @param sunCounter the accumulated value of sun
      */
     public void placeSunFlower(int row, int col, int gamePhaseTime, Counter sunCounter){
         int scaledRow, scaledCol;
