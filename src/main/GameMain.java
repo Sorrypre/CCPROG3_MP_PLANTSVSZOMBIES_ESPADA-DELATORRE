@@ -17,7 +17,7 @@ public class GameMain {
             //test normal zombie
             lvl1.getAvailableZombies().add("Normal Zombie");
             //start map processes and timers
-            lvl1.getMap().start();
+            lvl1.start();
         }
         else {
             System.out.println("Game Terminated.");

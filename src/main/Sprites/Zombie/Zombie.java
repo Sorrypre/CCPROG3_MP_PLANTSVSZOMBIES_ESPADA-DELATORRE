@@ -1,23 +1,48 @@
 package main.Sprites.Zombie;
 
+import java.util.Timer;
+import java.util.TimerTask;
+import main.Tile;
+import main.Map;
 public class Zombie {
-    public Zombie(){
+    public Zombie(Map map, int scaledRowPosition, int scaledColPosition){
         NAME = "Normal Zombie";
         speed = 4;
         damage = 10;
         health = 70;
-        zombieArmour = new Armour();
+        rowPosition = scaledRowPosition;
+        colPosition = scaledColPosition;
+        zombieArmour = null;
+        this.gameTiles = map.getGameTiles();
         zombieCounter++;
+
+        moveTimer = new Timer();
+
+        tileOccupied = gameTiles[rowPosition / Tile.getTileScale()][colPosition / Tile.getTileScale()];
+        System.out.println("Tile Occupied: " + rowPosition / Tile.getTileScale() + rowPosition / Tile.getTileScale());
+        TimerTask moveEverySecond = new TimerTask(){
+
+            @Override
+            public void run() {
+                if (tileOccupied.getYCoordinate() == 0){
+                    System.out.println("Zombies Win, game over");
+                    map.setGameStatus(true);
+                    System.out.println("Zombie reached House at gameTile ("+  tileOccupied.getXCoordinate() + ", "+ tileOccupied.getYCoordinate() + ")");
+                    moveTimer.cancel();
+                    moveTimer.purge();
+                    moveTimer = null;
+
+                }
+                    //code a function
+                else if (tileOccupied.getPlant() != null)
+                    System.out.println("Eat Plant"); //code a function
+                else if(!map.getGameStatus())
+                    move();
+            }
+        };
+        moveTimer.scheduleAtFixedRate(moveEverySecond, 0, 1000);
     }
-    public Zombie(String zombieName){
-        //you can use getName from the armor class and the base the zombie name from there
-        NAME = zombieName;
-        speed = 4;
-        damage = 10;
-        health = 70;
-        zombieArmour = new Armour();
-        zombieCounter++;
-    }
+
     public Zombie(String zombieName, Armour zombieArmour){
         //you can use getName from the armor class and the base the zombie name from there
         NAME = zombieName;
@@ -26,6 +51,8 @@ public class Zombie {
         health = 70 + zombieArmour.getToleranceBonus();
         this.zombieArmour = zombieArmour;
         zombieCounter++;
+
+
     }
 
     public void setSpeed(int s){
@@ -37,12 +64,12 @@ public class Zombie {
     public void setHealth(int h){
         health = h;
     }
-    public void setXPosition(int x) { xPosition = x; }
-    public void setYPosition(int y) { yPosition = y; }
+    public void setRowPosition(int x) { rowPosition = x; }
+    public void setColPosition(int y) { colPosition = y; }
 
 
-    public int getXPosition() { return xPosition; }
-    public int getYPosition() { return yPosition; }
+    public int getRowPosition() { return rowPosition; }
+    public int getColPosition() { return colPosition; }
     public int getSpeed(){
         return speed;
     }
@@ -56,12 +83,21 @@ public class Zombie {
     public void equip(Armour zombieArmour){
         this.zombieArmour = zombieArmour;
     }
-    public void die(Zombie zombie){
+    public static void die(Zombie zombie){
         zombieCounter--;
         zombie = null;
         //destroy zombie object created
     }
-    public void hit(){
+    public void move(){
+        int xPrevious = tileOccupied.getXCoordinate();//save previous x value of the tile that was occupied
+        int yPrevious = tileOccupied.getYCoordinate();//save previous y value of the tile that was occupied
+        colPosition -= speed; //going to the left towards 0
+        if (colPosition <= tileOccupied.getScaleYCoordinate() - Tile.getTileScale()){
+            System.out.println("Current Zombie Location: (" + tileOccupied.getXCoordinate() + ", "+ tileOccupied.getYCoordinate() + ")");
+            tileOccupied = gameTiles[xPrevious][yPrevious-1]; //If yes, update position of the tileOccupied
+        }
+    }
+    public void eatPlant(){
 
     }
 
@@ -71,12 +107,16 @@ public class Zombie {
     private int damage;
     private int health;
 
-    private int xPosition;
-    private int yPosition;
+    private int rowPosition;
+    private int colPosition;
+    private Tile tileOccupied;
+    private Tile[][] gameTiles;
 
     private Armour zombieArmour;
 
     private static int zombieCounter;
+
+    private Timer moveTimer;
 
     //add a sort of list of armour that can be equipped by a zombie
 }

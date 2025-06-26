@@ -3,12 +3,12 @@ package main;
 import main.Sprites.Plants.*;
 
 public class Tile {
-    Tile(int x, int y, int scale){
+    public Tile(int x, int y){
         xCoordinate = x;
         yCoordinate = y;
 
-        scaledXCoordinate = scale * x;
-        scaledYCoordinate = scale * y;
+        scaledXCoordinate = tileScale * x;
+        scaledYCoordinate = tileScale * y;
         plantInTile = null;
     }
     public void setPlant(Plant plant) { plantInTile = plant; }
@@ -17,6 +17,7 @@ public class Tile {
     public int getYCoordinate() { return this.yCoordinate; }
     public int getScaledXCoordinate() {return this.scaledXCoordinate;}
     public int getScaleYCoordinate() { return this.scaledYCoordinate; }
+    public static int getTileScale() { return tileScale; }
 
     public void addObject() {numOfObjects++;}
     public void removeObject() {
@@ -33,4 +34,6 @@ public class Tile {
     private int numOfObjects;
 
     private Plant plantInTile;
+
+    private static final int tileScale = 16;
 }
