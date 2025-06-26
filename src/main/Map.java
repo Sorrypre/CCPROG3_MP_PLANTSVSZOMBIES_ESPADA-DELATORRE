@@ -26,12 +26,12 @@ public class Map {
     }
 
     public void addZombie(int row, Map map){
-        int scaledRowCoordinate, scaledColumnCoordinate;
+        int scaledRow, scaledCol;
 
-        scaledRowCoordinate = row * Tile.getTileScale();
-        scaledColumnCoordinate = 8 * Tile.getTileScale();
+        scaledRow = row * Tile.getTileScale();
+        scaledCol = 8 * Tile.getTileScale();
 
-        Zombie zombie = new Zombie(map, scaledRowCoordinate, scaledColumnCoordinate);
+        Zombie zombie = new Zombie(map, scaledRow, scaledCol);
         System.out.println("Created a zombie");
         zombiesOnLawn.add(zombie);
         gameTiles[row][8].addObject();
@@ -41,22 +41,42 @@ public class Map {
         //add number of object in the tile
 
     }
-    public void placeSunFlower(int x, int y, int gamePhaseTime, Counter sunCounter){
-        int scaledXCoordinate, scaledYCoordinate;
+    public void placeSunFlower(int row, int col, int gamePhaseTime, Counter sunCounter){
+        int scaledRow, scaledCol;
         Sunflower sunflower = new Sunflower("Sunflower", 50, sunCounter);
         System.out.println("Created a Sunflower at Time: " + (gamePhaseTime/60) + ":" + (gamePhaseTime%60));
         sunCounter.subtract(sunflower.getSunCost());
         //fix coordinate system labelling
-        scaledXCoordinate = y * Tile.getTileScale();
-        scaledYCoordinate = x * Tile.getTileScale();
+        scaledRow = row * Tile.getTileScale();
+        scaledCol = col * Tile.getTileScale();
 
-        sunflower.setXPosition(scaledXCoordinate);
-        sunflower.setYPosition(scaledYCoordinate);
+        sunflower.setRow(scaledRow);
+        sunflower.setCol(scaledCol);
 
         plantsOnLawn.add(sunflower); //adds to the arrayList
-        gameTiles[x][y].addObject();
-        gameTiles[x][y].setPlant(sunflower);
+        gameTiles[row][col].addObject();
+        gameTiles[row][col].setPlant(sunflower);
     }
+    public void removePlant(Tile occupiedTilePlant){
+        Iterator<Plant> iterPlant = plantsOnLawn.iterator();
+        Plant plant;
+        occupiedTilePlant.setPlant(null);
+        while (iterPlant.hasNext()){
+            plant = iterPlant.next();
+            if (plant.isDead())
+                iterPlant.remove();
+        }
+    }
+    public void removeZombie(){
+        Iterator<Zombie> iterZombie = zombiesOnLawn.iterator();
+        Zombie zombie;
+        while(iterZombie.hasNext()){
+            zombie = iterZombie.next();
+            if(zombie.isDead())
+                iterZombie.remove();
+        }
+    }
+
 
     public void setGameStatus(boolean isGameOver) { gameOver = isGameOver; }
 

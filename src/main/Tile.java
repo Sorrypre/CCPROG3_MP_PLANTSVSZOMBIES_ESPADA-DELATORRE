@@ -4,19 +4,19 @@ import main.Sprites.Plants.*;
 
 public class Tile {
     public Tile(int x, int y){
-        xCoordinate = x;
-        yCoordinate = y;
+        row = x;
+        col = y;
 
-        scaledXCoordinate = tileScale * x;
-        scaledYCoordinate = tileScale * y;
+        scaledRowPosition = tileScale * x;
+        scaledColPosition = tileScale * y;
         plantInTile = null;
     }
     public void setPlant(Plant plant) { plantInTile = plant; }
     public Plant getPlant() {return plantInTile; }
-    public int getXCoordinate() {return this.xCoordinate; }
-    public int getYCoordinate() { return this.yCoordinate; }
-    public int getScaledXCoordinate() {return this.scaledXCoordinate;}
-    public int getScaleYCoordinate() { return this.scaledYCoordinate; }
+    public int getRow() {return this.row; }
+    public int getCol() { return this.col; }
+    public int getScaledRow() {return this.scaledRowPosition;}
+    public int getScaledCol() { return this.scaledColPosition; }
     public static int getTileScale() { return tileScale; }
 
     public void addObject() {numOfObjects++;}
@@ -26,11 +26,11 @@ public class Tile {
     }
     public int getNumOfObjects(){ return this.numOfObjects; }
 
-    private final int xCoordinate;
-    private final int yCoordinate;
+    private final int row;
+    private final int col;
 
-    private final int scaledXCoordinate;
-    private final int scaledYCoordinate;
+    private final int scaledRowPosition;
+    private final int scaledColPosition;
     private int numOfObjects;
 
     private Plant plantInTile;

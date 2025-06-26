@@ -27,6 +27,7 @@ public class Plant {
             public void run() {
                 if (!isDead()) {
                     curTime = System.currentTimeMillis();
+                    System.out.println("HP: " + health);
                     if (curTime >= lastAdded + regenerationRate) {
                         if (health < MAX_HP) {
                             health += 1;
@@ -89,9 +90,9 @@ public class Plant {
         this.speed = speed;
     }
 
-    public void setXPosition(int x) { xPosition = x; }
+    public void setRow(int x) { rowPosition = x; }
 
-    public void setYPosition(int y) { yPosition = y; }
+    public void setCol(int y) { colPosition = y; }
 
     public String getName() { return name; }
 
@@ -111,9 +112,9 @@ public class Plant {
 
     public Timer getActionTimer() { return actionTimer; }
 
-    public int getXPosition() { return xPosition; }
+    public int getRow() { return rowPosition; }
 
-    public int getYPosition() { return yPosition; }
+    public int getCol() { return colPosition; }
 
     public boolean isDead() {
         return health <= 0;
@@ -134,7 +135,7 @@ public class Plant {
     protected int range;
     protected float directDamage;
     protected int speed;
-    protected int xPosition;
-    protected int yPosition;
+    protected int rowPosition;
+    protected int colPosition;
     protected long lastAdded; //used for action timer interval
 }

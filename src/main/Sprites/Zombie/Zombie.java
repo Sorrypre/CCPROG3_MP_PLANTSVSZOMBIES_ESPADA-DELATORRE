@@ -24,10 +24,10 @@ public class Zombie {
 
             @Override
             public void run() {
-                if (tileOccupied.getYCoordinate() == 0 && !isDead()){
+                if (tileOccupied.getCol() == 0 && !isDead()){
                     System.out.println("Zombies Win, game over");
                     map.setGameStatus(true);
-                    System.out.println("Zombie reached House at gameTile ("+  tileOccupied.getXCoordinate() + ", "+ tileOccupied.getYCoordinate() + ")");
+                    System.out.println("Zombie reached House at gameTile ("+  tileOccupied.getRow() + ", "+ tileOccupied.getCol() + ")");
                     moveTimer.cancel();
                     moveTimer.purge();
                     moveTimer = null;
@@ -35,15 +35,18 @@ public class Zombie {
                     //code a function
                 else if (isDead()) { //if zombies ran out of time or killed by plant
                     if (map.getGameStatus()) {
+                        map.removeZombie();
                         moveTimer.cancel();
                         moveTimer.purge();
                         moveTimer = null;
                     }
                 }
                 //not finished the plant, idk how to remove plant object from tile pls fix help
-                else if (tileOccupied.getPlant() != null && !isDead() && !tileOccupied.getPlant().isDead()) {
+                else if (tileOccupied.getPlant() != null && !isDead()) {
                     System.out.println("Eat Plant");
                     eatPlant(); //code a function
+                    if(tileOccupied.getPlant().isDead())
+                        map.removePlant(tileOccupied);
                 }
                 else if(!map.getGameStatus() && !isDead())
                     move();
@@ -79,9 +82,9 @@ public class Zombie {
         health = h;
     }
 
-    public void setRowPosition(int x) { rowPosition = x; }
+    public void setRowPosition(int row) { rowPosition = row; }
 
-    public void setColPosition(int y) { colPosition = y; }
+    public void setColPosition(int col) { colPosition = col; }
 
     //Getters
 
@@ -113,22 +116,22 @@ public class Zombie {
         //destroy zombie object created
     }
     public void move(){
-        int xPrevious = tileOccupied.getXCoordinate();//save previous x value of the tile that was occupied
-        int yPrevious = tileOccupied.getYCoordinate();//save previous y value of the tile that was occupied
+        int xPrevious = tileOccupied.getRow();//save previous x value of the tile that was occupied
+        int yPrevious = tileOccupied.getCol();//save previous y value of the tile that was occupied
         colPosition -= speed; //going to the left towards 0
-        if (colPosition <= tileOccupied.getScaleYCoordinate() - Tile.getTileScale()){
-            System.out.println("Current Zombie Location: (" + tileOccupied.getXCoordinate() + ", "+ tileOccupied.getYCoordinate() + ")");
+        if (colPosition <= tileOccupied.getScaledCol() - Tile.getTileScale()){
+            System.out.println("Current Zombie Location: (" + tileOccupied.getRow() + ", "+ tileOccupied.getCol() + ")");
             tileOccupied = gameTiles[xPrevious][yPrevious-1]; //If yes, update position of the tileOccupied
         }
     }
     public void eatPlant(){
-        int plant_hp;
-        plant_hp = tileOccupied.getPlant().getHealth();
-        if (plant_hp > 0)
-            plant_hp -= damage;
-
+        int plantHP;
+        plantHP = tileOccupied.getPlant().getHealth();
+        if (tileOccupied.getPlant().getHealth() > 0){
+            plantHP -= damage;
+            tileOccupied.getPlant().setHealth(plantHP);
+        }
     }
-
 
     private final String NAME;
     private int speed;

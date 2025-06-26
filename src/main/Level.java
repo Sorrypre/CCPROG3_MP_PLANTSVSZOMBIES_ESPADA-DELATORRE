@@ -23,14 +23,14 @@ public class Level {
         //each timer object creates a thread that will allow multithreading
         gamePhaseTimer = new Timer();
         sunGenerationTimer = new Timer();
-        map.addZombie(randomRow.nextInt(5), map); //5 rows only
+        map.addZombie(3, map); //5 rows only
         System.out.println("Current Position of Zombie: (" + map.getZombiesOnLawn().get(0).getRowPosition() + ", " + map.getZombiesOnLawn().get(0).getColPosition() + ") ");
         //refactor to make things a lot shorter like the scales and the coordinates just make it set getXPosition(int scale) so that it will be less cluttered
         Tile tileOccupied = map.getGameTiles()[map.getZombiesOnLawn().get(0).getRowPosition() / 16][map.getZombiesOnLawn().get(0).getColPosition() / 16];
-        System.out.println("Number of objects in tile (" + tileOccupied.getXCoordinate() + "," + tileOccupied.getYCoordinate() + ") where zombie is " + tileOccupied.getNumOfObjects());
+        System.out.println("Number of objects in tile (" + tileOccupied.getRow() + "," + tileOccupied.getCol() + ") where zombie is " + tileOccupied.getNumOfObjects());
         //test place plant
         map.placeSunFlower(3,7, gamePhaseTime, sunCounter);
-
+        System.out.println("Current position of Plant: (" + map.getGameTiles()[3][7].getPlant().getRow() + ", " + map.getGameTiles()[3][7].getPlant().getCol() + ") ");
 
         //execute until time is not a negative integer
         TimerTask gamePhaseTimerTask = new TimerTask() {
@@ -42,6 +42,8 @@ public class Level {
                 }
                 else {
                     System.out.println("Level is Over");
+                    if (map.getGameTiles()[3][7].getPlant() == null)
+                        System.out.println("Tile with plant is now empty");
                     map.setGameStatus(true);
                     kb.close();
                     //terminate this timer and remove any currently scheduled tasks
