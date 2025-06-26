@@ -1,3 +1,12 @@
+/*********************************************************************************************************
+ This is to certify that this project is our own work, based on our personal efforts in studying and applying the concepts
+ learned. We have constructed the functions and their respective algorithms and corresponding code by ourselves. The
+ program was run, tested, and debugged by our own efforts. We further certify that we have not copied in part or whole or
+ otherwise plagiarized the work of other students and/or persons.
+
+ Jensel John L. Espada, DLSU ID# 12409383
+ Joramm Fredrik A. Dela Torre DLSU ID#12409529
+ *********************************************************************************************************/
 package main;
 
 import java.util.*;
@@ -5,8 +14,17 @@ import java.util.*;
 import main.Sprites.Zombie.*;
 import main.Sprites.Plants.*;
 
-
+/**
+ * The class Map represents the details of the game map of PvZ
+ *
+ * @author Jensel John L. Espada
+ * @author Joramm Fredrik A. Dela Torre
+ * @version 1.0
+ */
 public class Map {
+    /** This constructor initializes the rows and columns to the parameter. It initializes the dimensions of the 2D array of Tile class.
+     It also initializes an ArrayList of Zombie and an ArrayList of Plant object. It also initializes the game over boolean to false.
+     */
     public Map(int rows, int cols) {
         numRows = rows;
         numColumns = cols;
@@ -16,6 +34,8 @@ public class Map {
         gameOver = false;
     }
 
+    /** This method initializes the elements of the 2D array of Tile
+     */
     public void populateGameTiles() {
         int i,j;
 
@@ -25,6 +45,10 @@ public class Map {
 
     }
 
+    /** This method adds a Zombie object to the ArrayList indicating that a zombie exists on the lawn
+     @param row the row which the zombie will spawn
+     @param map the map object which the zombie will be spawned
+     */
     public void addZombie(int row, Map map){
         int scaledRow, scaledCol;
 
@@ -41,6 +65,11 @@ public class Map {
         //add number of object in the tile
 
     }
+
+    /** This method adds a Zombie object to the ArrayList indicating that a zombie exists on the lawn
+     @param row the row which the zombie will spawn
+     @param map the map object which the zombie will be spawned
+     */
     public void placeSunFlower(int row, int col, int gamePhaseTime, Counter sunCounter){
         int scaledRow, scaledCol;
         Sunflower sunflower = new Sunflower("Sunflower", 50, sunCounter);
@@ -57,6 +86,10 @@ public class Map {
         gameTiles[row][col].addObject();
         gameTiles[row][col].setPlant(sunflower);
     }
+
+    /** This method removes the Plant object from a Tile and from the list of Plant objects if the plant died in game
+     @param occupiedTilePlant the tile where a plant is planted
+     */
     public void removePlant(Tile occupiedTilePlant){
         Iterator<Plant> iterPlant = plantsOnLawn.iterator();
         Plant plant;
@@ -67,6 +100,10 @@ public class Map {
                 iterPlant.remove();
         }
     }
+
+    /** This method removes the Zombie object from the
+     list of Zombie objects on the map if the zombie died in game
+     */
     public void removeZombie(){
         Iterator<Zombie> iterZombie = zombiesOnLawn.iterator();
         Zombie zombie;
@@ -77,16 +114,42 @@ public class Map {
         }
     }
 
-
+    /** This method sets the status of the game phase to the parameter
+     @param isGameOver will contain true if the game is over, otherwise false
+     */
     public void setGameStatus(boolean isGameOver) { gameOver = isGameOver; }
 
+    /** This method returns the current game phase status
+     @return true if the game is over, otherwise false
+     */
     public boolean getGameStatus() { return gameOver; }
+
+    /** This method returns the 2D array of TIle
+     @return gameTiles an array of containing the tiles of the map
+     */
     public Tile[][] getGameTiles() { return gameTiles; }
+
+    /** This method returns the number of rows in the map
+     @return numRows number of rows in the map
+     */
     public int getNumRows() { return numRows; }
+
+    /** This method returns the number of columns in the map
+     @return numColumns number of columns in the map
+     */
     public int getNumCols() { return numColumns; }
+
+    /** This method returns the list of zombies spawned in the map
+     @return zombiesOnLaw a list containing Zombie objects
+     */
     public ArrayList<Zombie> getZombiesOnLawn() { return zombiesOnLawn; }
+
+    /** This method returns the list of plants planted in the map
+     @return plantsOnLawn a list containing Plant objects
+     */
     public ArrayList<Plant> getPlantsOnLawn() { return plantsOnLawn; }
 
+    //Variables
     private boolean gameOver;
 
     private int numRows;

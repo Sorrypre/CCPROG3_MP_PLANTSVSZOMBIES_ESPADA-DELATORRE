@@ -1,10 +1,27 @@
+/*********************************************************************************************************
+ This is to certify that this project is our own work, based on our personal efforts in studying and applying the concepts
+ learned. We have constructed the functions and their respective algorithms and corresponding code by ourselves. The
+ program was run, tested, and debugged by our own efforts. We further certify that we have not copied in part or whole or
+ otherwise plagiarized the work of other students and/or persons.
+
+ Jensel John L. Espada, DLSU ID# 12409383
+ Joramm Fredrik A. Dela Torre DLSU ID#12409529
+ *********************************************************************************************************/
 package main;
 import java.util.Scanner;
 
+/**
+ * The class GameMain represents the main game phase details of the game PvZ. Used to test the classes,
+ * methods, constructors with the main method.
+ *
+ * @author Jensel John L. Espada
+ * @author Joramm Fredrik A. Dela Torre
+ * @version 1.0
+ */
 public class GameMain {
     public static void main(String[] args) {
         Scanner kb = new Scanner(System.in);
-        Level lvl1 = new Level(1, 1, 1);
+        Level lvl1 = new Level(1);
 
         System.out.println("-- | WELCOME TO LEVEL " + lvl1.getLevelNum() + " OF PVZ | --");
         System.out.println("Welcome to Plants vs Zombies");
