@@ -62,15 +62,58 @@ public class Sunflower extends Plant {
         actionTimer.scheduleAtFixedRate(produceSunTimer, 300, 300);
     }
 
+    public Sunflower (String n, int sc, Counter sunCounter, int regen, int dmg, int hp, int range, float dd, int spd) {
+        super(n, sc, regen, dmg, hp, range, dd, spd);
+        SUN_RATE = 24000;
+        kb = new Scanner(System.in);
+        this.sunCounter = sunCounter;
+
+        TimerTask produceSunTimer = new TimerTask() {
+            long curTime;
+            @Override
+            public void run() {
+                if (!isDead()) {
+                    curTime = System.currentTimeMillis();
+                    if (curTime >= lastAdded + SUN_RATE) {
+                        produceSun();
+                        lastAdded = curTime;
+                    }
+                }
+                else {
+                    System.out.println("Sunflower Action Timer is Over");
+                    actionTimer.cancel();
+                    actionTimer.purge();
+                    actionTimer = null;
+                }
+            }
+        };
+        actionTimer.scheduleAtFixedRate(produceSunTimer, 300, 300);
+    }
+
     /** This method produces a sun and asks the user for collection of sun
      */
     public void produceSun() {
-        System.out.println("Sunflower generated a Sun");
-        System.out.println("Would you like to collect the sun? (y/n)");
-        if(kb.hasNext())
-            if (kb.next().equalsIgnoreCase("y"))
-                sunCounter.add(25);
-        System.out.println("Current Sun: " + sunCounter.getValue());
+        if (sunCounter.getAccumulator() == 0) {
+            System.out.println("Sunflower generated a Sun");
+            System.out.println("Would you like to collect the sun? (y/n)");
+            sunCounter.incrementAccumulator();
+            if(kb.hasNext())
+                if (kb.next().equalsIgnoreCase("y")) {
+                    sunCounter.add(25);
+                    sunCounter.decrementAccumulator();
+                }
+            System.out.println("Current Sun: " + sunCounter.getValue());
+        }
+        else {
+            sunCounter.incrementAccumulator();
+            System.out.println("Sunflower generated a Sun");
+            System.out.println("Currently there are " + sunCounter.getAccumulator() + " sun in the map");
+            System.out.println("Would you like to collect all the sun? (y/n)");
+            if(kb.hasNext())
+                if (kb.next().equalsIgnoreCase("y"))
+                    sunCounter.collectAll(25);
+            System.out.println("Current Sun: " + sunCounter.getValue());
+        }
     }
 
     /** This method returns the rate of sun generation

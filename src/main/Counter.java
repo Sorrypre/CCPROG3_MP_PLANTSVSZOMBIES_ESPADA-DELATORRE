@@ -19,12 +19,18 @@ package main;
 public class Counter {
     /** This constructor initializes the accumulated value to 0
      */
-    public Counter() { value = 0; }
+    public Counter() {
+        value = 0;
+        accumulator = 0;
+    }
 
     /** This constructor initializes the accumulated value to the parameter
      @param value the starting value of the accumulator
      */
-    public Counter(int value) { this.value = value; }
+    public Counter(int value) {
+        this.value = value;
+        accumulator = 0;
+    }
 
     /** This method returns the accumulated value of the Counter
      @return value the integer accumulated value
@@ -43,5 +49,21 @@ public class Counter {
         value -= amt;
     }
 
+    public int getAccumulator() {
+        return accumulator;
+    }
+
+    public void collectAll (int amt) {
+        value = amt * accumulator;
+        accumulator = 0;
+    }
+    public void decrementAccumulator () {
+        accumulator--;
+    }
+
+    public void incrementAccumulator () {
+        accumulator++;
+    }
+    private int accumulator;
     private int value;
 }

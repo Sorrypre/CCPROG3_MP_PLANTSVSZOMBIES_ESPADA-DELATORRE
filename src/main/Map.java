@@ -56,7 +56,7 @@ public class Map {
         scaledCol = (numColumns-1) * Tile.getTileScale();
 
         Zombie zombie = new Zombie(map, scaledRow, scaledCol);
-        System.out.println("Created a zombie");
+        System.out.println("Created a zombie at row " + row + " column " + scaledCol/Tile.getTileScale());
         zombiesOnLawn.add(zombie);
         gameTiles[row][numColumns-1].addObject();
 
@@ -75,7 +75,7 @@ public class Map {
      */
     public void placeSunFlower(int row, int col, int gamePhaseTime, Counter sunCounter){
         int scaledRow, scaledCol;
-        Sunflower sunflower = new Sunflower("Sunflower", 50, sunCounter);
+        Sunflower sunflower = new Sunflower("Sunflower", 50, sunCounter, 3000, 0, 50, 0, 0, 0);
         System.out.println("Created a Sunflower at Time: " + (gamePhaseTime/60) + ":" + (gamePhaseTime%60));
         sunCounter.subtract(sunflower.getSunCost());
         //fix coordinate system labelling
@@ -90,13 +90,11 @@ public class Map {
         gameTiles[row][col].setPlant(sunflower);
     }
 
-    public void placePeashooter(int row, int col, int gamePhaseTime, Counter sunCounter){
+    public void placePeashooter(Map map, int row, int col, int gamePhaseTime, Counter sunCounter){
         int scaledRow, scaledCol;
-        Map map = this;
-        Peashooter peashooter = new Peashooter(map, "Peashooter", 100);
+        Peashooter peashooter = new Peashooter(map, "Peashooter", 100, 3000, 10, 50,  160, (float)1.25, 4000);
         System.out.println("Created a Peashooter at Time: " + (gamePhaseTime/60) + ":" + (gamePhaseTime%60));
         sunCounter.subtract(peashooter.getSunCost());
-        peashooter.setDamage(7);
         //fix coordinate system labelling
         scaledRow = row * Tile.getTileScale();
         scaledCol = col * Tile.getTileScale();
@@ -137,26 +135,31 @@ public class Map {
     }
 
     public Zombie closestZombie (int rowPosition, int colPosition) {
-        int ctr_Z = 0; //counter of viable zombies
         Zombie min = null;
 
         for (Zombie zombie: zombiesOnLawn) {
             if ( zombie.getRowPosition() == rowPosition && //checks if the zombie is in the same row as the parameter
                 zombie.getColPosition() >= colPosition &&  //checks if zombie has not yet passed the parameter
-                ctr_Z == 0) { //to instantiate the first instance of viable zombie
-                ctr_Z++;
+                min == null) { //to instantiate the first instance of viable zombie
                 min = zombie;
             }
             else if ( zombie.getRowPosition() == rowPosition &&
                     zombie.getColPosition() >= colPosition &&
-                    ctr_Z > 0) {
-                if (min.getRowPosition() > zombie.getRowPosition()) {
+                    min != null) {
+                if (min.getColPosition() > zombie.getColPosition()) {
                     min = zombie;
-                    ctr_Z++;
                 }
             }
         }
         return min;
+    }
+
+    public boolean zombieOnRow (int rowPosition) {
+        for (Zombie zombie: zombiesOnLawn) {
+            if (zombie.getRowPosition() == rowPosition)
+                return true;
+        }
+        return false;
     }
 
     /** This method sets the status of the game phase to the parameter

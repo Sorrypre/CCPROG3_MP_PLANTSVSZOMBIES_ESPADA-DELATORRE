@@ -13,18 +13,15 @@ public class Peashooter extends Plant {
             @Override
             public void run() {
                 status = isDead();
-                if (!isDead()){
+                if (!isDead() && map.zombieOnRow(rowPosition)){
                     System.out.println("SHOOT! Created a Pea Instance");
-                    System.out.println("rowPosition: "+ rowPosition + ", colPosition: " + colPosition);
-                    pea = new Pea(map, rowPosition, colPosition, status);
-                    if (pea.isHit(map)){
-                        System.out.println("Zombie is HIT!");
-                        damageZombie(map.closestZombie(rowPosition, colPosition));
-                    }
-                    if(pea.isDead())
+                    pea = new Pea(map, rowPosition, colPosition, status, damage, directDamage, range);
+                    if (pea.isHit()) {
                         pea = null;
+                    }
                 }
                 else if (isDead()) {
+                    System.out.println("Peashooter Action Timer is Over");
                     actionTimer.cancel();
                     actionTimer.purge();
                     actionTimer = null;
@@ -32,7 +29,34 @@ public class Peashooter extends Plant {
             }
         };
 
-        actionTimer.scheduleAtFixedRate(shootPeaTimer, 1500,1500);
+        actionTimer.scheduleAtFixedRate(shootPeaTimer, speed, speed);
+    }
+
+    public Peashooter (Map map, String n, int sc, int regen, int dmg, int hp, int range, float dd, int spd) {
+        super(n, sc, regen, dmg, hp, range, dd, spd);
+
+        TimerTask shootPeaTimer = new TimerTask() {
+            boolean status;
+            @Override
+            public void run() {
+                status = isDead();
+                if (!isDead() && map.zombieOnRow(rowPosition)){
+                    System.out.println("SHOOT! Created a Pea Instance");
+                    pea = new Pea(map, rowPosition, colPosition, status, damage, directDamage, range);
+                    if (pea.isHit()) {
+                        pea = null;
+                    }
+                }
+                else if (isDead()) {
+                    System.out.println("Peashooter Action Timer is Over");
+                    actionTimer.cancel();
+                    actionTimer.purge();
+                    actionTimer = null;
+                }
+            }
+        };
+
+        actionTimer.scheduleAtFixedRate(shootPeaTimer, speed, speed);
     }
 
     public void shootPea() {

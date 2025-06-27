@@ -43,14 +43,13 @@ public class Zombie {
                 }
                     //code a function
                 else if (isDead()) { //if zombies ran out of time or killed by plant
-                    if (map.getGameStatus()) {
-                        map.removeZombie();
-                        moveTimer.cancel();
-                        moveTimer.purge();
-                        moveTimer = null;
-                    }
+                    System.out.println("Zombie Died");
+                    map.removeZombie();
+                    moveTimer.cancel();
+                    moveTimer.purge();
+                    moveTimer = null;
+
                 }
-                //not finished the plant, idk how to remove plant object from tile pls fix help
                 else if (tileOccupied.getPlant() != null && !isDead()) {
                     System.out.println("Eat Plant");
                     eatPlant(); //code a function
@@ -73,8 +72,6 @@ public class Zombie {
         health = 70 + zombieArmour.getToleranceBonus();
         this.zombieArmour = zombieArmour;
         zombieCounter++;
-
-
     }
 
     //Setters
@@ -139,6 +136,12 @@ public class Zombie {
         if (tileOccupied.getPlant().getHealth() > 0){
             plantHP -= damage;
             tileOccupied.getPlant().setHealth(plantHP);
+        }
+    }
+
+    public void receivedDamage(int damage) {
+        if (health > 0) {
+            health -= damage;
         }
     }
 
