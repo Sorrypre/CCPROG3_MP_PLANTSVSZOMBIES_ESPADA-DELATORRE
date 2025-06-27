@@ -29,12 +29,13 @@ public class Map {
         int scaledRow, scaledCol;
 
         scaledRow = row * Tile.getTileScale();
-        scaledCol = 8 * Tile.getTileScale();
+        scaledCol = (numColumns-1) * Tile.getTileScale();
 
         Zombie zombie = new Zombie(map, scaledRow, scaledCol);
         System.out.println("Created a zombie");
         zombiesOnLawn.add(zombie);
-        gameTiles[row][8].addObject();
+        gameTiles[row][numColumns-1].addObject();
+
         //instantiate a normal zombie
         //set its coordinates in the last x value which is 9 value
         //import random and place it on a random lawn

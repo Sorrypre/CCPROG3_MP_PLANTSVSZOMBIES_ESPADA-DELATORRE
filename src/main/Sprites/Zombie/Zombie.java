@@ -116,12 +116,12 @@ public class Zombie {
         //destroy zombie object created
     }
     public void move(){
-        int xPrevious = tileOccupied.getRow();//save previous x value of the tile that was occupied
-        int yPrevious = tileOccupied.getCol();//save previous y value of the tile that was occupied
+        int rowPrevious = tileOccupied.getRow();//save previous x value of the tile that was occupied
+        int colPrevious = tileOccupied.getCol();//save previous y value of the tile that was occupied
         colPosition -= speed; //going to the left towards 0
-        if (colPosition <= tileOccupied.getScaledCol() - Tile.getTileScale()){
+        if (colPosition <= tileOccupied.getScaledCol() - Tile.getTileScale() && colPosition != 0){
             System.out.println("Current Zombie Location: (" + tileOccupied.getRow() + ", "+ tileOccupied.getCol() + ")");
-            tileOccupied = gameTiles[xPrevious][yPrevious-1]; //If yes, update position of the tileOccupied
+            tileOccupied = gameTiles[rowPrevious][colPrevious-1]; //If yes, update position of the tileOccupied
         }
     }
     public void eatPlant(){

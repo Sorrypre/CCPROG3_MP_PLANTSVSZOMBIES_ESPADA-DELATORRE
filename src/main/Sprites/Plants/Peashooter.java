@@ -1,9 +1,11 @@
 package main.Sprites.Plants;
 
 import java.util.TimerTask;
+import main.Map;
+import main.Sprites.Zombie.*;
 
 public class Peashooter extends Plant {
-    public Peashooter (String n, int sc) {
+    public Peashooter (Map map, String n, int sc) {
         super(n, sc);
 
         TimerTask shootPeaTimer = new TimerTask() {
@@ -11,8 +13,11 @@ public class Peashooter extends Plant {
             @Override
             public void run() {
                 status = isDead();
-                if (!isDead())
-                    pea = new Pea(status);
+                if (!isDead()){
+                    pea = new Pea(map, rowPosition, colPosition, status);
+                    if(pea.isDead())
+                        pea = null;
+                }
                 else if (isDead()) {
                     actionTimer.cancel();
                     actionTimer.purge();
@@ -26,6 +31,16 @@ public class Peashooter extends Plant {
 
     public void shootPea() {
 
+    }
+    public void deletePea(){
+        pea = null;
+    }
+    public void damageZombie(Zombie zombie){
+        //If within 32 distance between peashooter and zombie
+        //dmg is amplified by direct damage
+        if(colPosition + 32 <= zombie.getColPosition())
+            zombie.setHealth(zombie.getHealth() - (int)(damage * directDamage));
+        else zombie.setHealth(zombie.getHealth() - damage);
     }
 
     public Peashooter (String n, int sc, int regen, int dmg, int hp, int range, float dd, int spd) {

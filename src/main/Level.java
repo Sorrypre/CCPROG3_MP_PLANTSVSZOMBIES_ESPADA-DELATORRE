@@ -10,7 +10,7 @@ public class Level {
         this.levelNumber = levelNumber;
         this.totalZombies = totalZombies;
         this.numWaves = numWaves;
-        map =  new Map(5,9);
+        map =  new Map(5,11);
         map.populateGameTiles();
         availablePlants = new ArrayList<String>();
         availableZombies = new ArrayList<String>();
@@ -37,7 +37,7 @@ public class Level {
             @Override
             public void run() {
                 //execute until time desired time
-                if (gamePhaseTime < 30) {
+                if (gamePhaseTime < 120) {
                     gamePhaseTime++;
                 }
                 else {

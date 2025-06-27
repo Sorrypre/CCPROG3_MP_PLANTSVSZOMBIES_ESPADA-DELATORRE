@@ -1,6 +1,8 @@
 package main;
 
+import java.util.ArrayList;
 import main.Sprites.Plants.*;
+import main.Sprites.Zombie.*;
 
 public class Tile {
     public Tile(int x, int y){
