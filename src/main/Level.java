@@ -56,8 +56,8 @@ public class Level {
         Tile tileOccupied = map.getGameTiles()[map.getZombiesOnLawn().get(0).getRowPosition() / 16][map.getZombiesOnLawn().get(0).getColPosition() / 16];
         System.out.println("Number of objects in tile (" + tileOccupied.getRow() + "," + tileOccupied.getCol() + ") where zombie is " + tileOccupied.getNumOfObjects());
         //test place plant
-        map.placePeashooter(3,7, gamePhaseTime, sunCounter);
-        System.out.println("Current position of Plant: (" + map.getGameTiles()[3][7].getPlant().getRow() + ", " + map.getGameTiles()[3][7].getPlant().getCol() + ") ");
+        map.placePeashooter(3,3, gamePhaseTime, sunCounter);
+        System.out.println("Current position of Plant: (" + map.getGameTiles()[3][3].getPlant().getRow() + ", " + map.getGameTiles()[3][3].getPlant().getCol() + ") ");
 
         //execute until time is not a negative integer
         TimerTask gamePhaseTimerTask = new TimerTask() {

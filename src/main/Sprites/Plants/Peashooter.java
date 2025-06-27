@@ -14,10 +14,13 @@ public class Peashooter extends Plant {
             public void run() {
                 status = isDead();
                 if (!isDead()){
-                    System.out.println("SHOOT!");
+                    System.out.println("SHOOT! Created a Pea Instance");
+                    System.out.println("rowPosition: "+ rowPosition + ", colPosition: " + colPosition);
                     pea = new Pea(map, rowPosition, colPosition, status);
-                    if (pea.isHit(map))
+                    if (pea.isHit(map)){
+                        System.out.println("Zombie is HIT!");
                         damageZombie(map.closestZombie(rowPosition, colPosition));
+                    }
                     if(pea.isDead())
                         pea = null;
                 }

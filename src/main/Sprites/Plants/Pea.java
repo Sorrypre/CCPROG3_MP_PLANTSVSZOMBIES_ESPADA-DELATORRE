@@ -12,16 +12,15 @@ public class Pea {
         this.status = status;
         moveTimer = new Timer();
         gameTiles = map.getGameTiles();
-        tileOccupied = gameTiles[startingRow/16][startingCol/16];
+        tileOccupied = gameTiles[startingRow/Tile.getTileScale()][startingCol/Tile.getTileScale()];
+        rowPosition = startingRow;
+        colPosition = startingCol;
 
         TimerTask peaMove =  new TimerTask() {
             @Override
             public void run() {
                 if (!isHit(map)) {//tile occupied is not containing any zombie and not reached last column (this is where collision will be checked for nearest zombie to peashooter)
-                    //if there is no zombie, move until the last column
-                    move(map); // changing xx value and then once it deals damage to the zombie it will disappear
-                    //else if there is a zombie found
-                    //apply zombie hit collision logic
+                    move(map); // changing x value and then once it deals damage to the zombie it will disappear
                 }
                 else {
                     removePea();
@@ -38,10 +37,10 @@ public class Pea {
 
         int rowPrevious = tileOccupied.getRow();//save previous x value of the tile that was occupied
         int colPrevious = tileOccupied.getCol();//save previous y value of the tile that was occupied
-        colPosition -= speed; //going to the right towards n-1
+        colPosition += speed; //going to the right towards n-1
         if (colPosition >= tileOccupied.getScaledCol() + Tile.getTileScale() && colPosition != map.getNumCols()){
+            tileOccupied = gameTiles[rowPrevious][colPrevious+1]; //If yes, update position of the tileOccupied
             System.out.println("Current Pea Location: (" + tileOccupied.getRow() + ", "+ tileOccupied.getCol() + ")");
-            tileOccupied = gameTiles[rowPrevious][colPrevious-1]; //If yes, update position of the tileOccupied
         }
     }
 
