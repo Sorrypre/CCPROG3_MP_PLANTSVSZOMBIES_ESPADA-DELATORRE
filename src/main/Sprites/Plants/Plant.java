@@ -49,7 +49,6 @@ public class Plant {
             public void run() {
                 if (!isDead()) {
                     curTime = System.currentTimeMillis();
-                    System.out.println("HP: " + health);
                     if (curTime >= lastAdded + regenerationRate) {
                         if (health < MAX_HP) {
                             health += 1;
