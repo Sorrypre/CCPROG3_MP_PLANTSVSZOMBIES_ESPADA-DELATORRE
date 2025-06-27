@@ -60,7 +60,7 @@ public class Zombie {
                     move();
             }
         };
-        moveTimer.scheduleAtFixedRate(moveEverySecond, 1500, 1500);
+        moveTimer.scheduleAtFixedRate(moveEverySecond, 1250, 1250);
     }
 
     //update zombie class to latest

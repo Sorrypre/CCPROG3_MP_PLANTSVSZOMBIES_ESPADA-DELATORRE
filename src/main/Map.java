@@ -92,7 +92,7 @@ public class Map {
 
     public void placePeashooter(Map map, int row, int col, int gamePhaseTime, Counter sunCounter){
         int scaledRow, scaledCol;
-        Peashooter peashooter = new Peashooter(map, "Peashooter", 100, 3000, 10, 50,  160, (float)1.25, 4000);
+        Peashooter peashooter = new Peashooter(map, "Peashooter", 100, 3000, 6, 50,  160, (float)1.25, 1500);
         System.out.println("Created a Peashooter at Time: " + (gamePhaseTime/60) + ":" + (gamePhaseTime%60));
         sunCounter.subtract(peashooter.getSunCost());
         //fix coordinate system labelling
