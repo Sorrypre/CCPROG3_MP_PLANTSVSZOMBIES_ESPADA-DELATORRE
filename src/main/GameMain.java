@@ -53,8 +53,8 @@ public class GameMain {
         if (kb.next().equals("y")) {
             System.out.println("Game Start.");
             //test sunflower, peashooter
-            lvl1.getAvailablePlants().add("sunflower");
-            lvl1.getAvailablePlants().add("peashooter");
+            lvl1.getAvailablePlants().add("sf");
+            lvl1.getAvailablePlants().add("ps");
             //test normal zombie
             lvl1.getAvailableZombies().add("Normal Zombie");
             //start map processes and timers

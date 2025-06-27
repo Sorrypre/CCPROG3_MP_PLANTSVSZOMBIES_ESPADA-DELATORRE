@@ -128,9 +128,10 @@ public class Zombie {
         int rowPrevious = tileOccupied.getRow();//save previous x value of the tile that was occupied
         int colPrevious = tileOccupied.getCol();//save previous y value of the tile that was occupied
         colPosition -= speed; //going to the left towards 0
-        if (colPosition <= tileOccupied.getScaledCol() - Tile.getTileScale() && colPosition <= 0){
+        if (colPosition <= tileOccupied.getScaledCol() - Tile.getTileScale() && colPosition != 0){
             System.out.println("Current Zombie Location: (" + tileOccupied.getRow() + ", "+ tileOccupied.getCol() + ")");
             tileOccupied = gameTiles[rowPrevious][colPrevious-1]; //If yes, update position of the tileOccupied
+            System.out.println("Current Tile of Zombie: " + rowPosition + " " + colPosition);
         }
     }
     public void eatPlant(){

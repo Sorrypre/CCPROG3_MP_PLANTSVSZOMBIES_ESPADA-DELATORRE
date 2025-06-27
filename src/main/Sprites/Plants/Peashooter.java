@@ -59,9 +59,6 @@ public class Peashooter extends Plant {
         actionTimer.scheduleAtFixedRate(shootPeaTimer, speed, speed);
     }
 
-    public void shootPea() {
-
-    }
     public void deletePea(){
         pea = null;
     }
@@ -71,10 +68,6 @@ public class Peashooter extends Plant {
         if(colPosition + 32 <= zombie.getColPosition())
             zombie.setHealth(zombie.getHealth() - (int)(damage * directDamage));
         else zombie.setHealth(zombie.getHealth() - damage);
-    }
-
-    public Peashooter (String n, int sc, int regen, int dmg, int hp, int range, float dd, int spd) {
-        super(n, sc, regen, dmg, hp, range, dd, spd);
     }
 
     private Pea pea;
