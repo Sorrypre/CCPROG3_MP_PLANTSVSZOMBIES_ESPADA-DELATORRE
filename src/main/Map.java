@@ -90,6 +90,25 @@ public class Map {
         gameTiles[row][col].setPlant(sunflower);
     }
 
+    public void placePeashooter(int row, int col, int gamePhaseTime, Counter sunCounter){
+        int scaledRow, scaledCol;
+        Map map = this;
+        Peashooter peashooter = new Peashooter(map, "Peashooter", 100);
+        System.out.println("Created a Peashooter at Time: " + (gamePhaseTime/60) + ":" + (gamePhaseTime%60));
+        sunCounter.subtract(peashooter.getSunCost());
+        peashooter.setDamage(7);
+        //fix coordinate system labelling
+        scaledRow = row * Tile.getTileScale();
+        scaledCol = col * Tile.getTileScale();
+
+        peashooter.setRow(scaledRow);
+        peashooter.setCol(scaledCol);
+
+        plantsOnLawn.add(peashooter); //adds to the arrayList
+        gameTiles[row][col].addObject();
+        gameTiles[row][col].setPlant(peashooter);
+    }
+
     /** This method removes the Plant object from a Tile and from the list of Plant objects if the plant died in game
      @param occupiedTilePlant the tile where a plant is planted
      */
@@ -115,6 +134,29 @@ public class Map {
             if(zombie.isDead())
                 iterZombie.remove();
         }
+    }
+
+    public Zombie closestZombie (int rowPosition, int colPosition) {
+        int ctr_Z = 0; //counter of viable zombies
+        Zombie min = null;
+
+        for (Zombie zombie: zombiesOnLawn) {
+            if ( zombie.getRowPosition() == rowPosition && //checks if the zombie is in the same row as the parameter
+                zombie.getColPosition() >= colPosition &&  //checks if zombie has not yet passed the parameter
+                ctr_Z == 0) { //to instantiate the first instance of viable zombie
+                ctr_Z++;
+                min = zombie;
+            }
+            else if ( zombie.getRowPosition() == rowPosition &&
+                    zombie.getColPosition() >= colPosition &&
+                    ctr_Z > 0) {
+                if (min.getRowPosition() > zombie.getRowPosition()) {
+                    min = zombie;
+                    ctr_Z++;
+                }
+            }
+        }
+        return min;
     }
 
     /** This method sets the status of the game phase to the parameter
