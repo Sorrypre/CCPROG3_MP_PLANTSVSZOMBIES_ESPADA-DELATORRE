@@ -23,8 +23,27 @@ public class Zombie {
         colPosition = scaledColPosition;
         zombieArmour = null;
         this.gameTiles = map.getGameTiles();
-        zombieCounter++;
 
+        initializeTimer(map);
+    }
+
+    //update zombie class to latest
+    public Zombie(Map map, int scaledRowPosition, int scaledColPosition, String zombieName, Armour zombieArmour){
+        //you can use getName from the armor class and the base the zombie name from there
+        NAME = zombieName;
+        speed = 4 + zombieArmour.getMovementBonus();
+        damage = 10;
+        health = 70 + zombieArmour.getToleranceBonus();
+        this.zombieArmour = zombieArmour;
+
+        rowPosition = scaledRowPosition;
+        colPosition = scaledColPosition;
+        equip(zombieArmour);
+        this.gameTiles = map.getGameTiles();
+
+        initializeTimer(map);
+    }
+    private void initializeTimer(Map map){
         moveTimer = new Timer();
 
         tileOccupied = gameTiles[rowPosition / Tile.getTileScale()][colPosition / Tile.getTileScale()];
@@ -41,7 +60,7 @@ public class Zombie {
                     moveTimer.purge();
                     moveTimer = null;
                 }
-                    //code a function
+                //code a function
                 else if (isDead()) { //if zombies ran out of time or killed by plant
                     System.out.println("Zombie Died");
                     map.removeZombie();
@@ -56,24 +75,12 @@ public class Zombie {
                     if(tileOccupied.getPlant().isDead())
                         map.removePlant(tileOccupied);
                 }
-                else if(!map.getGameStatus() && !isDead())
+                else if(!map.getGameOverStatus() && !isDead())
                     move();
             }
         };
         moveTimer.scheduleAtFixedRate(moveEverySecond, 1250, 1250);
     }
-
-    //update zombie class to latest
-    public Zombie(String zombieName, Armour zombieArmour){
-        //you can use getName from the armor class and the base the zombie name from there
-        NAME = zombieName;
-        speed = 4 + zombieArmour.getMovementBonus();
-        damage = 10;
-        health = 70 + zombieArmour.getToleranceBonus();
-        this.zombieArmour = zombieArmour;
-        zombieCounter++;
-    }
-
     //Setters
 
     public void setSpeed(int s){
@@ -93,6 +100,7 @@ public class Zombie {
     public void setColPosition(int col) { colPosition = col; }
 
     //Getters
+    public String getName() { return NAME; }
 
     public int getRowPosition() { return rowPosition; }
 
@@ -116,16 +124,11 @@ public class Zombie {
 
     public boolean isDead() { return health <= 0; }
 
-    public static void die(Zombie zombie){
-        zombieCounter--;
-        zombie = null;
-        //destroy zombie object created
-    }
     public void move(){
         int rowPrevious = tileOccupied.getRow();//save previous x value of the tile that was occupied
         int colPrevious = tileOccupied.getCol();//save previous y value of the tile that was occupied
         colPosition -= speed; //going to the left towards 0
-        if (colPosition <= tileOccupied.getScaledCol() - Tile.getTileScale() && colPosition != 0){
+        if (colPosition <= tileOccupied.getScaledCol() - Tile.getTileScale() && colPosition <= 0){
             System.out.println("Current Zombie Location: (" + tileOccupied.getRow() + ", "+ tileOccupied.getCol() + ")");
             tileOccupied = gameTiles[rowPrevious][colPrevious-1]; //If yes, update position of the tileOccupied
         }
@@ -156,8 +159,6 @@ public class Zombie {
     private Tile[][] gameTiles;
 
     private Armour zombieArmour;
-
-    private static int zombieCounter;
 
     private Timer moveTimer;
 

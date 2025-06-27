@@ -49,13 +49,26 @@ public class Map {
      @param row the row which the zombie will spawn
      @param map the map object which the zombie will be spawned
      */
-    public void addZombie(int row, Map map){
+    public void addNormalZombie(int row, Map map){
         int scaledRow, scaledCol;
 
         scaledRow = row * Tile.getTileScale();
         scaledCol = (numColumns-1) * Tile.getTileScale();
 
         Zombie zombie = new Zombie(map, scaledRow, scaledCol);
+        System.out.println("Created a zombie at row " + row + " column " + scaledCol/Tile.getTileScale());
+        zombiesOnLawn.add(zombie);
+        gameTiles[row][numColumns-1].addObject();
+    }
+
+    public void addFlagZombie(int row, Map map){
+        int scaledRow, scaledCol;
+        Armour flag = new Armour("Flag", 0, 2);
+
+        scaledRow = row * Tile.getTileScale();
+        scaledCol = (numColumns-1) * Tile.getTileScale();
+
+        Zombie zombie = new Zombie(map, scaledRow, scaledCol, "Flag Zombie", flag);
         System.out.println("Created a zombie at row " + row + " column " + scaledCol/Tile.getTileScale());
         zombiesOnLawn.add(zombie);
         gameTiles[row][numColumns-1].addObject();
@@ -92,7 +105,7 @@ public class Map {
 
     public void placePeashooter(Map map, int row, int col, int gamePhaseTime, Counter sunCounter){
         int scaledRow, scaledCol;
-        Peashooter peashooter = new Peashooter(map, "Peashooter", 100, 3000, 6, 50,  160, (float)1.25, 1500);
+        Peashooter peashooter = new Peashooter(map, "Peashooter", 100, 3000, 6, 50,  160, (float)1.25, 3000);
         System.out.println("Created a Peashooter at Time: " + (gamePhaseTime/60) + ":" + (gamePhaseTime%60));
         sunCounter.subtract(peashooter.getSunCost());
         //fix coordinate system labelling
@@ -170,7 +183,7 @@ public class Map {
     /** This method returns the current game phase status
      @return true if the game is over, otherwise false
      */
-    public boolean getGameStatus() { return gameOver; }
+    public boolean getGameOverStatus() { return gameOver; }
 
     /** This method returns the 2D array of TIle
      @return gameTiles an array of containing the tiles of the map
