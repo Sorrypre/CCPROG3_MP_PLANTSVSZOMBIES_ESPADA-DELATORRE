@@ -141,7 +141,7 @@ public class Zombie {
                 }
                 else if (tileOccupied.getPlant() != null && !isDead()) {
                     System.out.println("Eat Plant");
-                    eatPlant(); //code a function
+                    eatPlant();
                     if(tileOccupied.getPlant().isDead())
                         map.removePlant(tileOccupied);
                 }
