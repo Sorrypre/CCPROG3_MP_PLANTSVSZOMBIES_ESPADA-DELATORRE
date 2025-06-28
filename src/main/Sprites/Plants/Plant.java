@@ -207,7 +207,7 @@ public class Plant {
     /** This method returns true if sun cost is greater than 0
      @return true if sun cost is greater than 0
      */
-    protected boolean isValidSunCost(int sc) {
+    public boolean isValidSunCost(int sc) {
         if (sc > 0)
             return true;
         return false;
