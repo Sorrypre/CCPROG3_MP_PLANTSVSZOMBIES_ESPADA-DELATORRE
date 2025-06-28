@@ -23,6 +23,7 @@ public class Zombie {
         colPosition = scaledColPosition;
         zombieArmour = null;
         this.gameTiles = map.getGameTiles();
+        tileOccupied = gameTiles[rowPosition / Tile.getTileScale()][colPosition / Tile.getTileScale()];
 
         initializeTimer(map);
     }
@@ -40,6 +41,7 @@ public class Zombie {
         colPosition = scaledColPosition;
         equip(zombieArmour);
         this.gameTiles = map.getGameTiles();
+        tileOccupied = gameTiles[rowPosition / Tile.getTileScale()][colPosition / Tile.getTileScale()];
 
         initializeTimer(map);
     }
@@ -63,10 +65,6 @@ public class Zombie {
 
     //Getters
     public String getName() { return NAME; }
-
-    public int getRowPosition() { return rowPosition; }
-
-    public int getColPosition() { return colPosition; }
 
     public int getSpeed(){
         return speed;
@@ -121,9 +119,6 @@ public class Zombie {
 
     private void initializeTimer(Map map){
         moveTimer = new Timer();
-
-        tileOccupied = gameTiles[rowPosition / Tile.getTileScale()][colPosition / Tile.getTileScale()];
-        System.out.println("Tile Occupied: " + rowPosition / Tile.getTileScale() + rowPosition / Tile.getTileScale());
         TimerTask moveEverySecond = new TimerTask(){
 
             @Override
