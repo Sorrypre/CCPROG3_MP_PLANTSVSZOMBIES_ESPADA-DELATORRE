@@ -95,9 +95,13 @@ public class Sunflower extends Plant {
     public void produceSun() {
         System.out.println("Sunflower generated a Sun");
         System.out.println("Would you like to collect the sun? (y/n)");
-        if(kb.hasNext())
+        try {
             if (kb.next().equalsIgnoreCase("y"))
                 sunCounter.add(25);
+        }
+        catch(Exception e) {
+            System.out.println("Wrong Format");
+        }
         System.out.println("Current Sun: " + sunCounter.getValue());
     }
 
