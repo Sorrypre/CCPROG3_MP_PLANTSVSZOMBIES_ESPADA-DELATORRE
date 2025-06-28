@@ -64,6 +64,10 @@ public class Zombie {
     //Getters
     public String getName() { return NAME; }
 
+    public int getRowPosition() { return rowPosition; }
+
+    public int getColPosition() { return colPosition; }
+
     public int getSpeed(){
         return speed;
     }
@@ -97,6 +101,7 @@ public class Zombie {
         if (colPosition <= tileOccupied.getScaledCol() - Tile.getTileScale() && colPosition != 0){
             System.out.println("Current Zombie Location: (" + tileOccupied.getRow() + ", "+ tileOccupied.getCol() + ")");
             tileOccupied = gameTiles[rowPrevious][colPrevious-1]; //If yes, update position of the tileOccupied
+            System.out.println("Current Tile of Zombie: " + rowPosition + " " + colPosition);
         }
     }
     public void eatPlant(){

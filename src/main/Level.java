@@ -35,7 +35,7 @@ public class Level {
         map.populateGameTiles();
         availablePlants = new ArrayList<String>();
         availableZombies = new ArrayList<String>();
-        sunCounter = new Counter(100); //starting sun in this level
+        sunCounter = new Counter(500); //starting sun in this level
         gamePhaseTime = 0;
     }
 
@@ -45,20 +45,26 @@ public class Level {
      */
     public void start(){
         kb = new Scanner(System.in);
+        sc = new Scanner(System.in);
         Random randomRow = new Random();
         //each timer object creates a thread that will allow multithreading
         gamePhaseTimer = new Timer();
-        sunGenerationTimer = new Timer();
+        //sunGenerationTimer = new Timer();
         zombieGenerationTimer = new Timer();
-        inputReaderTimer = new Timer();
+        //inputReaderTimer = new Timer();
         startTime = System.currentTimeMillis();
 
+        map.placePeashooter(map, 0,9, gamePhaseTime, sunCounter);
+        map.placePeashooter(map, 1,1, gamePhaseTime, sunCounter);
+        map.placePeashooter(map, 2,1, gamePhaseTime, sunCounter);
+        map.placePeashooter(map, 3,1, gamePhaseTime, sunCounter);
+        map.placePeashooter(map, 4,1, gamePhaseTime, sunCounter);
         //execute until time is not a negative integer
         TimerTask gamePhaseTimerTask = new TimerTask() {
             @Override
             public void run() {
                 //execute until time desired time
-                if (gamePhaseTime < 60) { //zombieGeneration Timer Task won't cancel until gamePhaseTime >= 180
+                if (gamePhaseTime < 180 && !map.getGameOverStatus()) { //zombieGeneration Timer Task won't cancel until gamePhaseTime >= 180
                     gamePhaseTime++;
                 }
                 else {
@@ -79,7 +85,7 @@ public class Level {
         };
         TimerTask inputReaderTimerTask = new TimerTask(){
             long currentTime;
-            int timeInterval = 5000;
+            int timeInterval = 1000;
             String userInput;
             String plantType = null;
             int row, col;
@@ -87,46 +93,47 @@ public class Level {
             public void run() {
                 currentTime = System.currentTimeMillis();
                 if (!(map.getGameOverStatus())){
-                    if(currentTime >= startTime + timeInterval){
-                        if (sunCounter.getValue() >= 50){
+                    if (currentTime >= startTime + timeInterval) {
+                        if (sunCounter.getValue() >= 50) {
                             System.out.println("You have enough sun to plant :)");
                             System.out.println("Would you like to plant? (y/n) ");
-                            userInput = kb.next();
-                            if(userInput.equalsIgnoreCase("y")){
-
+                            if(kb.next().equalsIgnoreCase("y")){
+                                System.out.println("Type..");
                                 userInput = kb.next();
-                                for (String availablePlant : availablePlants){
+                                for (String availablePlant : availablePlants) {
                                     if (availablePlant.equalsIgnoreCase(userInput)) {
                                         plantType = userInput;
                                         break;
                                     }
                                 }
-                                userInput = kb.next();
-                                row = Integer.parseInt(userInput);
+                                row = Integer.parseInt(kb.next());
+                                col = Integer.parseInt(kb.next());
 
-                                userInput = kb.next();
-                                col = Integer.parseInt(userInput);
+                                System.out.println(plantType + row + col);
+                                if  (row >= 0 &&
+                                    row < map.getNumRows() &&
+                                    col > 0 &&
+                                    col < (map.getNumCols() - 1) &&
+                                    plantType != null &&
+                                    map.getGameTiles()[row][col].getPlant() != null) {
 
-                                if (row >= 0 && row < map.getNumRows() &&
-                                        col > 0 && col < map.getNumCols() - 1 &&
-                                        plantType != null && map.getGameTiles()[row][col].getPlant() != null){
                                     if(plantType.equalsIgnoreCase("sf"))
                                         map.placeSunFlower(row, col, gamePhaseTime, sunCounter);
                                     else if (plantType.equalsIgnoreCase("ps"))
                                         map.placePeashooter(map, row, col, gamePhaseTime, sunCounter);
                                     else System.out.println("Not valid plant or position");
                                 }
-                                timeInterval = 5000;
                                 startTime = currentTime;
+                                timeInterval = 5000;
                             }
                             else if(userInput.equalsIgnoreCase("n")){
                                 timeInterval = 10000;
                             }
                         }
                     }
-
                 }
                 else {
+                    kb.close();
                     inputReaderTimer.cancel();
                     inputReaderTimer.purge();
                     inputReaderTimer = null;
@@ -138,26 +145,15 @@ public class Level {
             @Override
             public void run() {
                 if(!map.getGameOverStatus()) {
-                    if (sunCounter.getAccumulator() == 0) {
-                        System.out.println("Sky Generated a Sun at Time: " + (gamePhaseTime/60) + ":" + gamePhaseTime%60);
-                        System.out.println("Would you like to collect the sun? (y/n)");
-                        if (kb.next().equalsIgnoreCase("y"))
-                            sunCounter.add(25);
-                        System.out.println("Current Sun: " + sunCounter.getValue());
-                    }
-                    else {
-                        System.out.println("Sky Generated a Sun at Time: " + (gamePhaseTime/60) + ":" + gamePhaseTime%60);
-                        System.out.println("Currently there are " + sunCounter.getAccumulator() + " sun in the map");
-                        System.out.println("Would you like to collect all the sun? (y/n)");
-                        if(kb.hasNext())
-                            if (kb.next().equalsIgnoreCase("y"))
-                                sunCounter.collectAll(25);
-                        System.out.println("Current Sun: " + sunCounter.getValue());
-                    }
+                    System.out.println("Sky Generated a Sun at Time: " + (gamePhaseTime/60) + ":" + gamePhaseTime%60);
+                    System.out.println("Would you like to collect the sun? (y/n)");
+                    if (sc.next().equalsIgnoreCase("y"))
+                        sunCounter.add(25);
+                    System.out.println("Current Sun: " + sunCounter.getValue());
                 }
                 else {
                     System.out.println("End Sun Timer Task");
-                    kb.close();
+                    sc.close();
                     sunGenerationTimer.cancel();
                     sunGenerationTimer.purge();
                     sunGenerationTimer = null;
@@ -191,6 +187,7 @@ public class Level {
 
                 }
                 else if (map.getGameOverStatus()) {
+                    System.out.println("Wave TImer Over");
                     zombieGenerationTimer.cancel();
                     zombieGenerationTimer.purge();
                     zombieGenerationTimer = null;
@@ -199,9 +196,9 @@ public class Level {
         };
 
         gamePhaseTimer.scheduleAtFixedRate(gamePhaseTimerTask, 1000, 1000);
-        inputReaderTimer.scheduleAtFixedRate(inputReaderTimerTask, 500, 500);
+        //inputReaderTimer.scheduleAtFixedRate(inputReaderTimerTask, 500, 500);
         zombieGenerationTimer.scheduleAtFixedRate(generateZombie, 950, 1000);
-        sunGenerationTimer.scheduleAtFixedRate(sunGenerationTimerTask, 8000, 8000);
+        //sunGenerationTimer.scheduleAtFixedRate(sunGenerationTimerTask, 8000, 8000);
     }
 
     /** This method returns the level of the game
@@ -233,6 +230,7 @@ public class Level {
     private Timer zombieGenerationTimer;
     private Timer inputReaderTimer;
     //start fucntion variables
+    private Scanner sc;
     private Scanner kb;
 
     private int levelNumber;

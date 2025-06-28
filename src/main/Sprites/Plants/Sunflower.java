@@ -93,27 +93,12 @@ public class Sunflower extends Plant {
     /** This method produces a sun and asks the user for collection of sun
      */
     public void produceSun() {
-        if (sunCounter.getAccumulator() == 0) {
-            System.out.println("Sunflower generated a Sun");
-            System.out.println("Would you like to collect the sun? (y/n)");
-            sunCounter.incrementAccumulator();
-            if(kb.hasNext())
-                if (kb.next().equalsIgnoreCase("y")) {
-                    sunCounter.add(25);
-                    sunCounter.decrementAccumulator();
-                }
-            System.out.println("Current Sun: " + sunCounter.getValue());
-        }
-        else {
-            sunCounter.incrementAccumulator();
-            System.out.println("Sunflower generated a Sun");
-            System.out.println("Currently there are " + sunCounter.getAccumulator() + " sun in the map");
-            System.out.println("Would you like to collect all the sun? (y/n)");
-            if(kb.hasNext())
-                if (kb.next().equalsIgnoreCase("y"))
-                    sunCounter.collectAll(25);
-            System.out.println("Current Sun: " + sunCounter.getValue());
-        }
+        System.out.println("Sunflower generated a Sun");
+        System.out.println("Would you like to collect the sun? (y/n)");
+        if(kb.hasNext())
+            if (kb.next().equalsIgnoreCase("y"))
+                sunCounter.add(25);
+        System.out.println("Current Sun: " + sunCounter.getValue());
     }
 
     /** This method returns the rate of sun generation
