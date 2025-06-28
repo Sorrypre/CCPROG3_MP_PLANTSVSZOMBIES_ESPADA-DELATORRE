@@ -59,16 +59,5 @@ public class Peashooter extends Plant {
         actionTimer.scheduleAtFixedRate(shootPeaTimer, speed, speed);
     }
 
-    public void deletePea(){
-        pea = null;
-    }
-    public void damageZombie(Zombie zombie){
-        //If within 32 distance between peashooter and zombie
-        //dmg is amplified by direct damage
-        if(colPosition + 32 <= zombie.getColPosition())
-            zombie.setHealth(zombie.getHealth() - (int)(damage * directDamage));
-        else zombie.setHealth(zombie.getHealth() - damage);
-    }
-
     private Pea pea;
 }
