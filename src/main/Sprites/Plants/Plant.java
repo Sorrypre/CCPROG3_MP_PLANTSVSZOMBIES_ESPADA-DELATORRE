@@ -57,7 +57,6 @@ public class Plant {
                     }
                 }
                 else {
-                    System.out.println("Regen Timer is Over");
                     regenTimer.cancel();
                     regenTimer.purge();
                     regenTimer = null;

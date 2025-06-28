@@ -56,7 +56,7 @@ public class Map {
         scaledCol = (numColumns-1) * Tile.getTileScale();
 
         Zombie zombie = new Zombie(map, scaledRow, scaledCol);
-        System.out.println("Created a zombie at row " + row + " column " + scaledCol/Tile.getTileScale());
+        System.out.println("Created a zombie at Row " + row);
         zombiesOnLawn.add(zombie);
     }
 
@@ -68,7 +68,7 @@ public class Map {
         scaledCol = (numColumns-1) * Tile.getTileScale();
 
         Zombie zombie = new Zombie(map, scaledRow, scaledCol, "Flag Zombie", flag);
-        System.out.println("Created a zombie at row " + row + " column " + scaledCol/Tile.getTileScale());
+        System.out.println("Created a zombie at Row " + row);
         zombiesOnLawn.add(zombie);
     }
 
@@ -82,6 +82,7 @@ public class Map {
         int scaledRow, scaledCol;
         Sunflower sunflower = new Sunflower("Sunflower", 50, sunCounter, 3000, 0, 50, 0, 0, 0);
         System.out.println("Created a Sunflower at Time: " + (gamePhaseTime/60) + ":" + (gamePhaseTime%60));
+        System.out.println("Sunflower is at: " + "[ " + row + " , " + col + " ]");
         sunCounter.subtract(sunflower.getSunCost());
         //fix coordinate system labelling
         scaledRow = row * Tile.getTileScale();
@@ -98,6 +99,7 @@ public class Map {
         int scaledRow, scaledCol;
         Peashooter peashooter = new Peashooter(map, "Peashooter", 100, 3000, 90, 20,  160, (float)1.25, 3000);
         System.out.println("Created a Peashooter at Time: " + (gamePhaseTime/60) + ":" + (gamePhaseTime%60));
+        System.out.println("Peashooter is at: " + "[ " + row + " , " + col + " ]");
         sunCounter.subtract(peashooter.getSunCost());
         //fix coordinate system labelling
         scaledRow = row * Tile.getTileScale();

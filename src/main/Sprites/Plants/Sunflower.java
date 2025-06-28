@@ -52,7 +52,7 @@ public class Sunflower extends Plant {
                     }
                 }
                 else {
-                    System.out.println("Sunflower Action Timer is Over");
+                    System.out.println("Sunflower Died");
                     actionTimer.cancel();
                     actionTimer.purge();
                     actionTimer = null;

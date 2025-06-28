@@ -41,14 +41,14 @@ public class Peashooter extends Plant {
             public void run() {
                 status = isDead();
                 if (!isDead() && map.zombieOnRow(rowPosition)){
-                    System.out.println("SHOOT! Created a Pea Instance");
+                    System.out.println("SHOOT!");
                     pea = new Pea(map, rowPosition, colPosition, status, damage, directDamage, range);
                     if (pea.isHit()) {
                         pea = null;
                     }
                 }
                 else if (isDead()) {
-                    System.out.println("Peashooter Action Timer is Over");
+                    System.out.println("Peashooter Died");
                     actionTimer.cancel();
                     actionTimer.purge();
                     actionTimer = null;
