@@ -58,7 +58,6 @@ public class Map {
         Zombie zombie = new Zombie(map, scaledRow, scaledCol);
         System.out.println("Created a zombie at row " + row + " column " + scaledCol/Tile.getTileScale());
         zombiesOnLawn.add(zombie);
-        gameTiles[row][numColumns-1].addObject();
     }
 
     public void addFlagZombie(int row, Map map){
@@ -71,13 +70,6 @@ public class Map {
         Zombie zombie = new Zombie(map, scaledRow, scaledCol, "Flag Zombie", flag);
         System.out.println("Created a zombie at row " + row + " column " + scaledCol/Tile.getTileScale());
         zombiesOnLawn.add(zombie);
-        gameTiles[row][numColumns-1].addObject();
-
-        //instantiate a normal zombie
-        //set its coordinates in the last x value which is 9 value
-        //import random and place it on a random lawn
-        //add number of object in the tile
-
     }
 
     /** This method adds a Sunflower object to the ArrayList indicating that a Sunflower Plant exists on the lawn
@@ -99,7 +91,6 @@ public class Map {
         sunflower.setCol(scaledCol);
 
         plantsOnLawn.add(sunflower); //adds to the arrayList
-        gameTiles[row][col].addObject();
         gameTiles[row][col].setPlant(sunflower);
     }
 
@@ -116,7 +107,6 @@ public class Map {
         peashooter.setCol(scaledCol);
 
         plantsOnLawn.add(peashooter); //adds to the arrayList
-        gameTiles[row][col].addObject();
         gameTiles[row][col].setPlant(peashooter);
     }
 

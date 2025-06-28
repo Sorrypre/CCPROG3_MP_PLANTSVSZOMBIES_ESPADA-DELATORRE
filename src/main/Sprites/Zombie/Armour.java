@@ -17,14 +17,6 @@ package main.Sprites.Zombie;
  * @version 1.0
  */
 public class Armour {
-    /** This constructor initializes the name to "No Armour" and gives no bonus stats to the zombie
-     */
-    public Armour(){
-        NAME = "No Armour";
-        toleranceBonus = 0;
-        movementBonus = 0;
-    }
-
     /** This constructor initializes the name, tolerance, movement to the parameter.
      */
     public Armour(String n, int tB, int mB){

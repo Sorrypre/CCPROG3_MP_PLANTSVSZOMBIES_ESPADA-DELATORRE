@@ -43,6 +43,77 @@ public class Zombie {
 
         initializeTimer(map);
     }
+    //Setters
+
+    public void setSpeed(int s){
+        speed = s;
+    }
+
+    public void setDamage(int d){
+        damage = d;
+    }
+
+    public void setHealth(int h){
+        health = h;
+    }
+
+    public void setRowPosition(int row) { rowPosition = row; }
+
+    public void setColPosition(int col) { colPosition = col; }
+
+    //Getters
+    public String getName() { return NAME; }
+
+    public int getSpeed(){
+        return speed;
+    }
+
+    public int getDamage(){
+        return damage;
+    }
+
+    public int getHealth(){
+        return health;
+    }
+
+    public int getRowPosition() { return rowPosition; }
+
+    public int getColPosition() { return colPosition; }
+
+    public Armour getArmour() { return zombieArmour; }
+
+    public void equip(Armour zombieArmour){
+        this.zombieArmour = zombieArmour;
+    }
+
+    public void unequip() { this.zombieArmour = null; }
+
+    public boolean isDead() { return health <= 0; }
+
+    public void move(){
+        int rowPrevious = tileOccupied.getRow();//save previous x value of the tile that was occupied
+        int colPrevious = tileOccupied.getCol();//save previous y value of the tile that was occupied
+        colPosition -= speed; //going to the left towards 0
+        if (colPosition <= tileOccupied.getScaledCol() - Tile.getTileScale() && colPosition != 0){
+            System.out.println("Current Zombie Location: (" + tileOccupied.getRow() + ", "+ tileOccupied.getCol() + ")");
+            tileOccupied = gameTiles[rowPrevious][colPrevious-1]; //If yes, update position of the tileOccupied
+        }
+    }
+    public void eatPlant(){
+        int plantHP;
+        plantHP = tileOccupied.getPlant().getHealth();
+        if (tileOccupied.getPlant().getHealth() > 0){
+            plantHP -= damage;
+            tileOccupied.getPlant().setHealth(plantHP);
+        }
+    }
+
+    public void receivedDamage(int damage) {
+        if (health > 0) {
+            health -= damage;
+        }
+    }
+
     private void initializeTimer(Map map){
         moveTimer = new Timer();
 
@@ -80,72 +151,6 @@ public class Zombie {
             }
         };
         moveTimer.scheduleAtFixedRate(moveEverySecond, 1250, 1250);
-    }
-    //Setters
-
-    public void setSpeed(int s){
-        speed = s;
-    }
-
-    public void setDamage(int d){
-        damage = d;
-    }
-
-    public void setHealth(int h){
-        health = h;
-    }
-
-    public void setRowPosition(int row) { rowPosition = row; }
-
-    public void setColPosition(int col) { colPosition = col; }
-
-    //Getters
-    public String getName() { return NAME; }
-
-    public int getRowPosition() { return rowPosition; }
-
-    public int getColPosition() { return colPosition; }
-
-    public int getSpeed(){
-        return speed;
-    }
-
-    public int getDamage(){
-        return damage;
-    }
-
-    public int getHealth(){
-        return health;
-    }
-
-    public void equip(Armour zombieArmour){
-        this.zombieArmour = zombieArmour;
-    }
-
-    public boolean isDead() { return health <= 0; }
-
-    public void move(){
-        int rowPrevious = tileOccupied.getRow();//save previous x value of the tile that was occupied
-        int colPrevious = tileOccupied.getCol();//save previous y value of the tile that was occupied
-        colPosition -= speed; //going to the left towards 0
-        if (colPosition <= tileOccupied.getScaledCol() - Tile.getTileScale() && colPosition <= 0){
-            System.out.println("Current Zombie Location: (" + tileOccupied.getRow() + ", "+ tileOccupied.getCol() + ")");
-            tileOccupied = gameTiles[rowPrevious][colPrevious-1]; //If yes, update position of the tileOccupied
-        }
-    }
-    public void eatPlant(){
-        int plantHP;
-        plantHP = tileOccupied.getPlant().getHealth();
-        if (tileOccupied.getPlant().getHealth() > 0){
-            plantHP -= damage;
-            tileOccupied.getPlant().setHealth(plantHP);
-        }
-    }
-
-    public void receivedDamage(int damage) {
-        if (health > 0) {
-            health -= damage;
-        }
     }
 
     private final String NAME;

@@ -89,13 +89,6 @@ public class Plant {
         speed = spd;
     }
 
-    /** This method sets the name of the plant to the parameter
-     @param name the name of the plant
-     */
-    public void setName (String name) {
-        this.name = name;
-    }
-
     /** This method sets the sun cost of the plant to the parameter
      @param sunCost the sun cost of the plant
      */
@@ -223,7 +216,7 @@ public class Plant {
     //public access modifier reason is that there are inheritor classes
     protected Timer regenTimer;
     protected Timer actionTimer;
-    protected String name;
+    protected final String name;
     protected int sunCost;
     protected int regenerationRate;
     protected int damage;

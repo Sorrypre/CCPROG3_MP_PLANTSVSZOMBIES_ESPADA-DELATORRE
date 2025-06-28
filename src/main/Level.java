@@ -63,8 +63,6 @@ public class Level {
                 }
                 else {
                     System.out.println("Level is Over");
-                    if (map.getGameTiles()[3][7].getPlant() == null)
-                        System.out.println("Tile with plant is now empty");
                     map.setGameStatus(true);
                     kb.close();
                     //terminate this timer and remove any currently scheduled tasks
@@ -236,8 +234,6 @@ public class Level {
     private Timer inputReaderTimer;
     //start fucntion variables
     private Scanner kb;
-    private int xInput;
-    private int yInput;
 
     private int levelNumber;
     private int totalZombies;

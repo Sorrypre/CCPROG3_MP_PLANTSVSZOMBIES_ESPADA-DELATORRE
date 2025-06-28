@@ -14,12 +14,12 @@ import main.Sprites.Plants.*;
 import main.Sprites.Zombie.*;
 
 public class Tile {
-    public Tile(int x, int y){
-        row = x;
-        col = y;
+    public Tile(int row, int col){
+        this.row = row;
+        this.col = col;
 
-        scaledRowPosition = tileScale * x;
-        scaledColPosition = tileScale * y;
+        scaledRowPosition = tileScale * row;
+        scaledColPosition = tileScale * col;
         plantInTile = null;
     }
     public void setPlant(Plant plant) { plantInTile = plant; }
@@ -30,19 +30,11 @@ public class Tile {
     public int getScaledCol() { return this.scaledColPosition; }
     public static int getTileScale() { return tileScale; }
 
-    public void addObject() {numOfObjects++;}
-    public void removeObject() {
-        if (numOfObjects > 0)
-            numOfObjects--;
-    }
-    public int getNumOfObjects(){ return this.numOfObjects; }
-
     private final int row;
     private final int col;
 
     private final int scaledRowPosition;
     private final int scaledColPosition;
-    private int numOfObjects;
 
     private Plant plantInTile;
 
