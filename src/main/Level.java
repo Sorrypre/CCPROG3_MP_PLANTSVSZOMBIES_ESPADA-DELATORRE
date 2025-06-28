@@ -37,6 +37,7 @@ public class Level {
         availableZombies = new ArrayList<String>();
         sunCounter = new Counter(500); //starting sun in this level
         gamePhaseTime = 0;
+        userTakingInput = false;
     }
 
     /** This method signals the start of the game. It initializes the game phase timer, sun production from the sky timer,
@@ -49,16 +50,16 @@ public class Level {
         Random randomRow = new Random();
         //each timer object creates a thread that will allow multithreading
         gamePhaseTimer = new Timer();
-        //sunGenerationTimer = new Timer();
+        sunGenerationTimer = new Timer();
         zombieGenerationTimer = new Timer();
-        //inputReaderTimer = new Timer();
+        inputReaderTimer = new Timer();
         startTime = System.currentTimeMillis();
 
-        map.placePeashooter(map, 0,9, gamePhaseTime, sunCounter);
-        map.placePeashooter(map, 1,1, gamePhaseTime, sunCounter);
-        map.placePeashooter(map, 2,1, gamePhaseTime, sunCounter);
-        map.placePeashooter(map, 3,1, gamePhaseTime, sunCounter);
-        map.placePeashooter(map, 4,1, gamePhaseTime, sunCounter);
+        //map.placePeashooter(map, 0,9, gamePhaseTime, sunCounter);
+        //map.placePeashooter(map, 1,1, gamePhaseTime, sunCounter);
+        //map.placePeashooter(map, 2,1, gamePhaseTime, sunCounter);
+        //map.placePeashooter(map, 3,1, gamePhaseTime, sunCounter);
+        //map.placePeashooter(map, 4,1, gamePhaseTime, sunCounter);
         //execute until time is not a negative integer
         TimerTask gamePhaseTimerTask = new TimerTask() {
             @Override
@@ -84,79 +85,109 @@ public class Level {
             }
         };
         TimerTask inputReaderTimerTask = new TimerTask(){
-            long currentTime;
-            int timeInterval = 1000;
             String userInput;
             String plantType = null;
             int row, col;
             @Override
             public void run() {
-                currentTime = System.currentTimeMillis();
-                if (!(map.getGameOverStatus())){
-                    if (currentTime >= startTime + timeInterval) {
+                if (!userTakingInput) {
+                    if (!(map.getGameOverStatus())){
                         if (sunCounter.getValue() >= 50) {
                             System.out.println("You have enough sun to plant :)");
                             System.out.println("Would you like to plant? (y/n) ");
-                            if(kb.next().equalsIgnoreCase("y")){
+                            userTakingInput = true;
+                            if (kb.next().equalsIgnoreCase("y")) {
                                 System.out.println("Type..");
-                                userInput = kb.next();
-                                for (String availablePlant : availablePlants) {
-                                    if (availablePlant.equalsIgnoreCase(userInput)) {
-                                        plantType = userInput;
-                                        break;
+                                try {
+                                    userInput = kb.next();
+                                    for (String availablePlant : availablePlants) {
+                                        if (availablePlant.equalsIgnoreCase(userInput)) {
+                                            plantType = userInput;
+                                            break;
+                                        }
                                     }
+
+                                    row = Integer.parseInt(kb.next());
+                                    col = Integer.parseInt(kb.next());
                                 }
-                                row = Integer.parseInt(kb.next());
-                                col = Integer.parseInt(kb.next());
+                                catch(Exception e) {
+                                    System.out.println("Wrong Format!");
+                                    plantType = null;
+                                    row = 0;
+                                    col = 0;
+                                }
+                                if (row >= 0 &&
+                                        row < map.getNumRows() &&
+                                        col > 0 &&
+                                        col < (map.getNumCols() - 1) &&
+                                        plantType != null &&
+                                        map.getGameTiles()[row][col].getPlant() == null) {
 
-                                System.out.println(plantType + row + col);
-                                if  (row >= 0 &&
-                                    row < map.getNumRows() &&
-                                    col > 0 &&
-                                    col < (map.getNumCols() - 1) &&
-                                    plantType != null &&
-                                    map.getGameTiles()[row][col].getPlant() != null) {
-
-                                    if(plantType.equalsIgnoreCase("sf"))
+                                    if (plantType.equalsIgnoreCase("sf"))
                                         map.placeSunFlower(row, col, gamePhaseTime, sunCounter);
                                     else if (plantType.equalsIgnoreCase("ps"))
                                         map.placePeashooter(map, row, col, gamePhaseTime, sunCounter);
                                     else System.out.println("Not valid plant or position");
                                 }
-                                startTime = currentTime;
-                                timeInterval = 5000;
                             }
-                            else if(userInput.equalsIgnoreCase("n")){
-                                timeInterval = 10000;
-                            }
+                            userTakingInput = false;
                         }
+                    }
+                    else {
+                        kb.close();
+                        inputReaderTimer.cancel();
+                        inputReaderTimer.purge();
+                        inputReaderTimer = null;
                     }
                 }
                 else {
-                    kb.close();
-                    inputReaderTimer.cancel();
-                    inputReaderTimer.purge();
-                    inputReaderTimer = null;
+                    if (map.getGameOverStatus()) {
+                        kb.close();
+                        inputReaderTimer.cancel();
+                        inputReaderTimer.purge();
+                        inputReaderTimer = null;
+                    }
+                    else  System.out.println("Another Task is asking for Input!");
                 }
             }
+
         };
         TimerTask sunGenerationTimerTask = new TimerTask() {
 
             @Override
             public void run() {
-                if(!map.getGameOverStatus()) {
-                    System.out.println("Sky Generated a Sun at Time: " + (gamePhaseTime/60) + ":" + gamePhaseTime%60);
-                    System.out.println("Would you like to collect the sun? (y/n)");
-                    if (sc.next().equalsIgnoreCase("y"))
-                        sunCounter.add(25);
-                    System.out.println("Current Sun: " + sunCounter.getValue());
+                if (!userTakingInput) {
+                    if(!map.getGameOverStatus()) {
+                        userTakingInput = true;
+                        System.out.println("Sky Generated a Sun at Time: " + (gamePhaseTime/60) + ":" + gamePhaseTime%60);
+                        System.out.println("Would you like to collect the sun? (y/n)");
+                        try {
+                            if (sc.next().equalsIgnoreCase("y"))
+                                sunCounter.add(25);
+                        }
+                        catch(Exception e) {
+                            System.out.println("Wrong Format");
+                        }
+                        System.out.println("Current Sun: " + sunCounter.getValue());
+                        userTakingInput = false;
+                    }
+                    else {
+                        userTakingInput = false;
+                        System.out.println("End Sun Timer Task");
+                        sc.close();
+                        sunGenerationTimer.cancel();
+                        sunGenerationTimer.purge();
+                        sunGenerationTimer = null;
+                    }
                 }
                 else {
-                    System.out.println("End Sun Timer Task");
-                    sc.close();
-                    sunGenerationTimer.cancel();
-                    sunGenerationTimer.purge();
-                    sunGenerationTimer = null;
+                    if (map.getGameOverStatus()) {
+                        kb.close();
+                        sunGenerationTimer.cancel();
+                        sunGenerationTimer.purge();
+                        sunGenerationTimer = null;
+                    }
+                    else System.out.println("Another Task is Asking for Input!");
                 }
             }
         };
@@ -196,9 +227,9 @@ public class Level {
         };
 
         gamePhaseTimer.scheduleAtFixedRate(gamePhaseTimerTask, 1000, 1000);
-        //inputReaderTimer.scheduleAtFixedRate(inputReaderTimerTask, 500, 500);
+        inputReaderTimer.scheduleAtFixedRate(inputReaderTimerTask, 11000, 11000);
         zombieGenerationTimer.scheduleAtFixedRate(generateZombie, 950, 1000);
-        //sunGenerationTimer.scheduleAtFixedRate(sunGenerationTimerTask, 8000, 8000);
+        sunGenerationTimer.scheduleAtFixedRate(sunGenerationTimerTask, 8000, 8000);
     }
 
     /** This method returns the level of the game
@@ -222,6 +253,7 @@ public class Level {
     public ArrayList<String> getAvailableZombies() { return this.availableZombies; }
 
     private long startTime;
+    private boolean userTakingInput;
 
     //start function variables
     private int gamePhaseTime;
